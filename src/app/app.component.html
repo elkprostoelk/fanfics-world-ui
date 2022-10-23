@@ -1,13 +1,15 @@
-<header>
-  <select #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
-    <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
-      {{ language }}
-    </option>
-  </select>
-</header>
-<main>
-  <router-outlet></router-outlet>
-</main>
-<footer>
+<div class="wrapper">
+  <header class="header">
+    <select #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
+      <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
+        {{ language }}
+      </option>
+    </select>
+  </header>
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+  <footer class="footer">
 
-</footer>
+  </footer>
+</div>
