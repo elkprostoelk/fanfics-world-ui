@@ -8,10 +8,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppToastsComponent } from './components/app-toasts/app-toasts/app-toasts.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AppToastsComponent
   ],
   imports: [
     BrowserModule,
