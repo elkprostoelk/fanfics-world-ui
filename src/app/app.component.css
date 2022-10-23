@@ -18,3 +18,9 @@
   background-color: darkgray;
   padding: 30px;
 }
+
+a.github-link {
+  text-decoration: none;
+  color: black;
+  font-family: monospace;
+}
