@@ -6,6 +6,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AppComponent } from './app.component';
         useFactory: httpTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
