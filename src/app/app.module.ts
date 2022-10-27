@@ -3,17 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppToastsComponent } from './components/app-toasts/app-toasts/app-toasts.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { LoginComponent } from './components/login/login/login.component';
+import { RouterModule } from "@angular/router";
+import { AuthInterceptor } from "./auth-interceptor/auth.interceptor";
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppToastsComponent
+    AppToastsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -26,9 +35,15 @@ import { AppToastsComponent } from './components/app-toasts/app-toasts/app-toast
       }
     }),
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
