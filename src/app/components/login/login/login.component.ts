@@ -34,7 +34,6 @@ export class LoginComponent {
         },
         error: (err: HttpErrorResponse) => {
           this.toastService.show('Error!', err.error);
-          console.log(err);
         }
       });
   }
