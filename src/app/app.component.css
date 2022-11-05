@@ -5,17 +5,18 @@
 }
 
 .header {
-  background-color: darkgray;
+  background-color: #00b200;
   padding:30px;
 }
 
 .main {
+  background-color: #a5ff90;
   padding:30px;
   flex: 1 1 auto;
 }
 
 .footer {
-  background-color: darkgray;
+  background-color: #00b200;
   padding: 30px;
 }
 
