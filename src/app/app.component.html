@@ -1,22 +1,22 @@
 <div class="wrapper">
   <header class="header navbar">
     <a routerLink="/"><img class="img-fluid" src="assets/img/cite-main-icon.jpg" alt="Fanfics World Icon"/></a>
-    <div class="d-flex">
-      <div class="d-grid gap-2 col-6 mx-auto m-3" *ngIf="userLoggedIn; else notLoggedIn">
-        <button class="btn btn-sm" type="button" disabled="disabled">{{(authService.loggedInUser | async)?.userName}}</button>
-        <button class="btn btn-sm" type="button" (click)="logoutUser()">Logout</button>
+    <div class="navbar-text">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <ng-container *ngIf="userLoggedIn; else notLoggedIn">
+          <button class="btn btn-outline-light border-0" type="button" disabled="disabled">{{(authService.loggedInUser | async)?.userName}}</button>
+          <button class="btn btn-sm btn-outline-success" type="button" (click)="logoutUser()">Logout</button>
+        </ng-container>
+        <ng-template #notLoggedIn>
+          <button class="btn btn-sm btn-outline-success me-md-2" type="button" routerLink="/login">Login</button>
+          <button class="btn btn-sm btn-outline-success" type="button" routerLink="/register">Register</button>
+        </ng-template>
+        <select class="form-select w-50 m-1" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
+          <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
+            {{ language }}
+          </option>
+        </select>
       </div>
-      <ng-template #notLoggedIn>
-        <div class="d-grid gap-2 col-6 mx-auto m-3">
-          <button class="btn btn-sm" type="button" routerLink="/login">Login</button>
-          <button class="btn btn-sm" type="button" routerLink="/register">Register</button>
-        </div>
-      </ng-template>
-      <select class="form-select form-select-lg m-1" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
-        <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
-          {{ language }}
-        </option>
-      </select>
     </div>
   </header>
   <main class="main">
