@@ -1,0 +1,22 @@
+<div class="col">
+  <div class="card m-3 text-bg-success" *ngFor="let fanfic of (fanfics$ | async)?.pageContent">
+    <div class="card-body">
+      <h5 class="card-title">{{fanfic.title}}</h5>
+      <h6 class="card-subtitle mb-2">
+        Fandoms: {{this.fanficsService.getFandomsNamesLine(fanfic.fandoms)}}
+      </h6>
+      <div class="card-text mb-1">
+        Created: {{fanfic?.createdDate | date:'MMMM d y h:mm a'}}
+      </div>
+      <div class="card-text mb-1">
+        Last modified: {{fanfic?.lastModified | date:'MMMM d y h:mm a'}}
+      </div>
+      <p class="card-text">
+        {{fanfic?.annotation}}
+      </p>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+</div>
+

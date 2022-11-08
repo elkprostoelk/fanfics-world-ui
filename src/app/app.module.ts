@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from './components/login/login/login.component';
 import { RouterModule } from "@angular/router";
 import { AuthInterceptor } from "./auth-interceptor/auth.interceptor";
+import { FanficsComponent } from './components/fanfics/fanfics.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -22,7 +23,8 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     AppToastsComponent,
-    LoginComponent
+    LoginComponent,
+    FanficsComponent
   ],
   imports: [
     BrowserModule,

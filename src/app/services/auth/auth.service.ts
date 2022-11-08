@@ -12,7 +12,7 @@ import { environment } from "../../../environments/environment";
 export class AuthService {
   private loggedUserSubject: BehaviorSubject<UserDto | undefined>;
   public loggedInUser: Observable<UserDto | undefined>;
-  private authRoute: string = 'auth/';
+  private readonly authRoute: string = 'auth/';
 
   constructor(
     private readonly httpClient: HttpClient) {
@@ -48,14 +48,11 @@ export class AuthService {
       const roleClaim: string = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
       const expires: Date = new Date(0);
       expires.setUTCSeconds(identity['exp']);
-      if (expires < new Date()) {
-        localStorage.removeItem('jwt');
-        return undefined;
-      }
       return {
         id: identity[idClaim],
         userName: identity[nameClaim],
-        role: identity[roleClaim]
+        role: identity[roleClaim],
+        expires
       };
     }
     return undefined;
