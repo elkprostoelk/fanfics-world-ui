@@ -14,6 +14,7 @@ import { LoginComponent } from './components/login/login/login.component';
 import { RouterModule } from "@angular/router";
 import { AuthInterceptor } from "./auth-interceptor/auth.interceptor";
 import { FanficsComponent } from './components/fanfics/fanfics.component';
+import {JwtModule} from "@auth0/angular-jwt";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -38,6 +39,11 @@ export function tokenGetter() {
     }),
     AppRoutingModule,
     NgbModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

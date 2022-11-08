@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { UserDto } from "../../dto/userDto";
 import { tokenGetter } from "../../app.module";
 import { environment } from "../../../environments/environment";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class AuthService {
   private readonly authRoute: string = 'auth/';
 
   constructor(
-    private readonly httpClient: HttpClient) {
+    private readonly httpClient: HttpClient,
+    private readonly jwtHelper: JwtHelperService) {
     let user = this.parseJwt();
     this.loggedUserSubject = new BehaviorSubject<UserDto | undefined>(user);
     this.loggedInUser = this.loggedUserSubject.asObservable();
@@ -36,7 +38,9 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean {
-    return this.loggedUserSubject.getValue() !== undefined;
+    let token = tokenGetter() ?? undefined;
+    return !this.jwtHelper.isTokenExpired(token) &&
+      this.loggedUserSubject.getValue() !== undefined;
   }
 
   parseJwt(): UserDto | undefined {
