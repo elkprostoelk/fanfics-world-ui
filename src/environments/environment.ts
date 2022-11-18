@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiPath: 'https://localhost:7220/api/'
+  apiPath: 'https://localhost:7220/api/',
+  chunkSize: 50
 };
 
 /*

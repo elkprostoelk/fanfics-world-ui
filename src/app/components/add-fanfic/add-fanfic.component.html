@@ -1,0 +1,60 @@
+<form class="form-add-fanfic w-100 m-auto" [formGroup]="addFanficForm">
+  <h1 class="display-3">Add new fanfic</h1>
+  <div class="form-floating m-3">
+    <input class="form-control" type="text" id="title" placeholder="Enter title here" maxlength="30" formControlName="title">
+    <label for="title">Fanfic title* (up to 30 symbols):</label>
+  </div>
+  <div class="form-floating m-3">
+    <textarea class="form-control" id="annotation" placeholder="Enter annotation here" maxlength="100" formControlName="annotation"></textarea>
+    <label for="annotation">Fanfic annotation (up to 100 symbols):</label>
+  </div>
+  <div class="form-floating m-3">
+    <select class="form-select" type="text" id="origin" formControlName="origin">
+      <option value="" selected="selected" disabled="disabled">Select a fanfic origin:</option>
+      <option value="0">Original text (written by author)</option>
+      <option value="1">Translated (agreed with author)</option>
+    </select>
+    <label for="origin">Fanfic origin* :</label>
+  </div>
+  <div class="form-floating m-3">
+    <select class="form-select" type="text" id="rating" formControlName="rating">
+      <option value="" selected="selected" disabled="disabled">Select a fanfic rating:</option>
+      <option value="0">G</option>
+      <option value="1">PG-13</option>
+      <option value="2">R</option>
+      <option value="3">NC-17</option>
+      <option value="4">NC-21</option>
+    </select>
+    <label for="rating">Fanfic rating* :</label>
+  </div>
+  <div class="form-floating m-3">
+    <select class="form-select" type="text" id="direction" formControlName="direction">
+      <option value="" selected="selected" disabled="disabled">Select a fanfic direction:</option>
+      <option value="0">Gen</option>
+      <option value="1">Het</option>
+      <option value="2">Slash</option>
+      <option value="3">FemSlash</option>
+      <option value="4">Other</option>
+      <option value="5">Mixed</option>
+      <option value="6">Article</option>
+    </select>
+    <label for="direction">Fanfic direction* :</label>
+  </div>
+  <div class="form-floating m-3">
+    <input class="form-select" list="coauthors" id="coauthorsList" />
+    <datalist id="coauthors">
+      <option value="0">
+      <option value="1">
+    </datalist>
+    <label for="coauthorsList">Fanfic coauthors :</label>
+  </div>
+  <div class="form-floating m-3">
+    <select class="form-select" multiple formControlName="coauthorIds">
+    </select>
+  </div>
+  <div class="form-floating m-3">
+    <textarea class="form-control" id="text" placeholder="Enter text here" formControlName="text"></textarea>
+    <label for="text">Fanfic text:</label>
+  </div>
+  <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="addFanficForm.invalid">Add new fanfic</button>
+</form>

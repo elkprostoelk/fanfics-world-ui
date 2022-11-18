@@ -14,9 +14,7 @@ export class FanficsService {
 
   constructor(
     private readonly httpClient: HttpClient
-  ) {
-
-  }
+  ) { }
 
   getFanficsPage(): Observable<ServicePagedResultDto<SimpleFanficDto>> {
     return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto>>(environment.apiPath + this.fanficsRoute);
