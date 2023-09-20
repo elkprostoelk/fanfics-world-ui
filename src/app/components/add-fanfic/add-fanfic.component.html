@@ -41,16 +41,11 @@
     <label for="direction">Fanfic direction* :</label>
   </div>
   <div class="form-floating m-3">
-    <input class="form-select" list="coauthors" id="coauthorsList" />
-    <datalist id="coauthors">
-      <option value="0">
-      <option value="1">
-    </datalist>
-    <label for="coauthorsList">Fanfic coauthors :</label>
-  </div>
-  <div class="form-floating m-3">
-    <select class="form-select" multiple formControlName="coauthorIds">
-    </select>
+    <p>Fanfic coauthors :</p>
+    <div class="input-group mb-3">
+      <input class="form-control" type="text" />
+      <button class="btn btn-lg btn-outline-secondary" type="button">Search</button>
+    </div>
   </div>
   <div class="form-floating m-3">
     <textarea class="form-control" id="text" placeholder="Enter text here" formControlName="text"></textarea>

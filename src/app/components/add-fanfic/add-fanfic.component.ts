@@ -14,8 +14,8 @@ import { environment } from "../../../environments/environment";
   styleUrls: ['./add-fanfic.component.css']
 })
 export class AddFanficComponent {
-  users$: BehaviorSubject<SimpleUserDto[] | undefined>
-    = new BehaviorSubject<SimpleUserDto[] | undefined>(undefined);
+  users$: BehaviorSubject<SimpleUserDto[]>
+    = new BehaviorSubject<SimpleUserDto[]>([]);
   addFanficForm: FormGroup;
 
   constructor(
@@ -41,7 +41,7 @@ export class AddFanficComponent {
   getUsersPage(pageNumber: number) {
     this.userService.getUsers(pageNumber, environment.chunkSize)
       .subscribe({
-        next: value => this.users$.next(value),
+        next: value => this.users$.next(value.pageContent),
         error: (err: HttpErrorResponse) =>
           this.toastService.show('Error!', err.error)
       });

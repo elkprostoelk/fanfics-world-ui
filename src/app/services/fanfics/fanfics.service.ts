@@ -17,7 +17,7 @@ export class FanficsService {
   ) { }
 
   getFanficsPage(): Observable<ServicePagedResultDto<SimpleFanficDto>> {
-    return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto>>(environment.apiPath + this.fanficsRoute);
+    return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto>>(`${environment.apiPath}${this.fanficsRoute}`);
   }
 
   getFandomsNamesLine(fandoms: SimpleFandomDto[]): string {
