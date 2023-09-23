@@ -1,27 +1,40 @@
-.wrapper {
-  min-height:100%;
-  display:flex;
-  flex-direction: column;
-}
-
 .header {
-  background-color: #00b200;
-  padding:30px;
+  background-color: rgb(26, 119, 206);
+  color: white;
+  text-align: left;
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
 }
 
 .main {
-  background-color: #a5ff90;
-  padding:30px;
-  flex: 1 1 auto;
+  flex: 1;
+  overflow-y: scroll;
+  padding: 1rem;
 }
 
 .footer {
-  background-color: #00b200;
-  padding: 30px;
+  background-color: rgb(199, 196, 29);
+  color: rgb(49, 49, 49);
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
 }
 
 a.github-link {
   text-decoration: none;
   color: black;
   font-family: monospace;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
 }

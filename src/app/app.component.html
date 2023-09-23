@@ -4,15 +4,15 @@
     <div class="navbar-text">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <ng-container *ngIf="userLoggedIn; else notLoggedIn">
-          <button class="btn btn-outline-dark border-0" type="button" disabled="disabled">{{(authService.loggedInUser | async)?.userName}}</button>
-          <button class="btn btn-sm btn-outline-dark" type="button" routerLink="/add-fanfic">Add fanfic</button>
-          <button class="btn btn-sm btn-outline-dark" type="button" (click)="logoutUser()">Logout</button>
+          <button class="btn btn-light border-0" type="button" disabled="disabled">{{(authService.loggedInUser | async)?.userName}}</button>
+          <button class="btn btn-sm btn-light" type="button" [routerLink]="['/add-fanfic']">Add fanfic</button>
+          <button class="btn btn-sm btn-light" type="button" (click)="logoutUser()">Logout</button>
         </ng-container>
         <ng-template #notLoggedIn>
-          <button class="btn btn-sm btn-outline-dark me-md-2" type="button" routerLink="/login">Login</button>
-          <button class="btn btn-sm btn-outline-dark" type="button" routerLink="/register">Register</button>
+          <button class="btn btn-sm btn-light me-md-2" type="button" routerLink="/login">Login</button>
+          <button class="btn btn-sm btn-light" type="button" routerLink="/register">Register</button>
         </ng-template>
-        <select class="form-select bg-success border-success w-50 m-1" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
+        <select class="form-select bg-light border-dark w-50 m-1" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
           <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
             {{ language }}
           </option>

@@ -30,4 +30,8 @@ export class FanficsComponent {
       });
   }
 
+  getCoauthorsNames(fanfic: SimpleFanficDto): string {
+    return fanfic.coauthors?.map(author => author.userName)
+      .join(', ') ?? '';
+  }
 }
