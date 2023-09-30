@@ -12,8 +12,8 @@ import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
   styleUrls: ['./fanfics.component.css']
 })
 export class FanficsComponent {
-  fanfics$: BehaviorSubject<ServicePagedResultDto<SimpleFanficDto> | undefined>
-    = new BehaviorSubject<ServicePagedResultDto<SimpleFanficDto> | undefined>(undefined);
+  fanfics$: BehaviorSubject<ServicePagedResultDto<SimpleFanficDto[]> | undefined>
+    = new BehaviorSubject<ServicePagedResultDto<SimpleFanficDto[]> | undefined>(undefined);
 
   constructor(
     readonly fanficsService: FanficsService,

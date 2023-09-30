@@ -9,7 +9,7 @@
     <label for="annotation">Fanfic annotation (up to 100 symbols):</label>
   </div>
   <div class="form-floating m-3">
-    <select class="form-select" type="text" id="origin" formControlName="origin">
+    <select class="form-select" id="origin" formControlName="origin">
       <option value="" selected="selected" disabled="disabled">Select a fanfic origin:</option>
       <option value="0">Original text (written by author)</option>
       <option value="1">Translated (agreed with author)</option>
@@ -17,7 +17,7 @@
     <label for="origin">Fanfic origin* :</label>
   </div>
   <div class="form-floating m-3">
-    <select class="form-select" type="text" id="rating" formControlName="rating">
+    <select class="form-select" id="rating" formControlName="rating">
       <option value="" selected="selected" disabled="disabled">Select a fanfic rating:</option>
       <option value="0">G</option>
       <option value="1">PG-13</option>
@@ -28,7 +28,7 @@
     <label for="rating">Fanfic rating* :</label>
   </div>
   <div class="form-floating m-3">
-    <select class="form-select" type="text" id="direction" formControlName="direction">
+    <select class="form-select" id="direction" formControlName="direction">
       <option value="" selected="selected" disabled="disabled">Select a fanfic direction:</option>
       <option value="0">Gen</option>
       <option value="1">Het</option>
@@ -41,11 +41,37 @@
     <label for="direction">Fanfic direction* :</label>
   </div>
   <div class="form-floating m-3">
-    <p>Fanfic coauthors :</p>
-    <div class="input-group mb-3">
-      <input class="form-control" type="text" />
-      <button class="btn btn-lg btn-outline-secondary" type="button">Search</button>
+    <div class="mb-3 row">
+      <label for="typeahead-coauthors-search" class="col-xs-3 col-sm-auto col-form-label">Search for coauthors:</label>
+      <div class="col">
+        <ul class="list-group list-group-horizontal">
+          <input
+            id="typeahead-coauthors-search"
+            type="text"
+            class="form-control list-group-item"
+            [(ngModel)]="user"
+            [ngbTypeahead]="search"
+            [inputFormatter]="formatter"
+            [resultFormatter]="formatter"
+            [editable]="false"
+            [ngModelOptions]="{standalone: true}"
+          />
+          <button
+            class="list-group-item btn btn-primary"
+            type="button"
+            (click)="userSelect(user)">Add</button>
+        </ul>
+      </div>
     </div>
+    <p>Fanfic coauthors :</p>
+    <ul class="list-group" *ngFor="let coauthor of coauthors">
+      <div class="w-50" [id]="coauthor.id">
+          <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
+            <span>{{ coauthor.userName }}</span>
+            <button class="btn btn-danger" (click)="deleteCoauthor(coauthor.id)">X</button>
+          </span>
+      </div>
+    </ul>
   </div>
   <div class="form-floating m-3">
     <textarea class="form-control" id="text" placeholder="Enter text here" formControlName="text"></textarea>

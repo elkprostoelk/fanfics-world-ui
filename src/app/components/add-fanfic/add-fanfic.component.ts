@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BehaviorSubject } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map, mergeMap,
+  Observable,
+  OperatorFunction
+} from "rxjs";
 import { FanficsService } from "../../services/fanfics/fanfics.service";
-import { HttpErrorResponse } from "@angular/common/http";
 import { AppToastService } from "../../services/app-toast/app-toast.service";
 import { SimpleUserDto } from "../../dto/simpleUserDto";
 import { UserService } from "../../services/user/user.service";
-import { environment } from "../../../environments/environment";
 
 @Component({
   selector: 'app-add-fanfic',
   templateUrl: './add-fanfic.component.html',
-  styleUrls: ['./add-fanfic.component.css']
+  styleUrls: ['./add-fanfic.component.css'],
 })
 export class AddFanficComponent {
-  users$: BehaviorSubject<SimpleUserDto[]>
-    = new BehaviorSubject<SimpleUserDto[]>([]);
   addFanficForm: FormGroup;
+  coauthors: SimpleUserDto[] = [];
+
+  public user: SimpleUserDto | undefined;
 
   constructor(
     private readonly builder: FormBuilder,
@@ -31,20 +36,37 @@ export class AddFanficComponent {
         origin: ['', [Validators.required]],
         rating: ['', [Validators.required]],
         direction: ['', [Validators.required]],
-        coauthorIds: [''],
-        fandomIds: ['', [Validators.required]],
-        tagIds: [''],
-      });
-      this.getUsersPage(0);
-  }
-
-  getUsersPage(pageNumber: number) {
-    this.userService.getUsers(pageNumber, environment.chunkSize)
-      .subscribe({
-        next: value => this.users$.next(value.pageContent),
-        error: (err: HttpErrorResponse) =>
-          this.toastService.show('Error!', err.error)
+        coauthorIds: [[]],
+        fandomIds: [[], [Validators.required]],
+        tagIds: [[]],
       });
   }
 
+  formatter = (user: SimpleUserDto) => user.userName;
+
+  search: OperatorFunction<string, SimpleUserDto[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      mergeMap(userNameSearchLine => {
+        if (userNameSearchLine) {
+          return this.userService.getUsersV2(userNameSearchLine, 0, 10)
+            .pipe(map(res =>
+              res.pageContent)
+            );
+        }
+        return new Observable<SimpleUserDto[]>();
+      }));
+
+  userSelect(user: SimpleUserDto | undefined) {
+    if (user && !this.coauthors.some(u =>
+        u.id === user.id)) {
+      this.coauthors.push(user);
+      this.addFanficForm.get('coauthorIds')?.setValue(this.coauthors.map(u => u.id));
+    }
+  }
+
+  deleteCoauthor(id: string) {
+    this.coauthors = this.coauthors.filter(u => u.id !== id);
+  }
 }

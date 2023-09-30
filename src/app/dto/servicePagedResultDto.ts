@@ -1,5 +1,5 @@
 export interface ServicePagedResultDto<T> {
-  pageContent: T[];
+  pageContent: T;
   totalItems: number;
   currentPage: number;
   pagesCount: number;
