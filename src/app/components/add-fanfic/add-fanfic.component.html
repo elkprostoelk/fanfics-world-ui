@@ -50,9 +50,9 @@
             type="text"
             class="form-control list-group-item"
             [(ngModel)]="user"
-            [ngbTypeahead]="search"
-            [inputFormatter]="formatter"
-            [resultFormatter]="formatter"
+            [ngbTypeahead]="searchCoauthors"
+            [inputFormatter]="userFormatter"
+            [resultFormatter]="userFormatter"
             [editable]="false"
             [ngModelOptions]="{standalone: true}"
           />
@@ -63,15 +63,52 @@
         </ul>
       </div>
     </div>
-    <p>Fanfic coauthors :</p>
-    <ul class="list-group" *ngFor="let coauthor of coauthors">
-      <div class="w-50" [id]="coauthor.id">
+    <p>Fanfic coauthors: <span *ngIf="coauthors.length === 0; else coauthorsAdded">No coauthors added</span></p>
+    <ng-template #coauthorsAdded>
+      <ul class="list-group" *ngFor="let coauthor of coauthors">
+        <div class="w-50" [id]="coauthor.id">
           <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
             <span>{{ coauthor.userName }}</span>
             <button class="btn btn-danger" (click)="deleteCoauthor(coauthor.id)">X</button>
           </span>
+        </div>
+      </ul>
+    </ng-template>
+  </div>
+  <div class="form-floating m-3">
+    <div class="mb-3 row">
+      <label for="typeahead-fandom-search" class="col-xs-3 col-sm-auto col-form-label">Search for fandoms:</label>
+      <div class="col">
+        <ul class="list-group list-group-horizontal">
+          <input
+            id="typeahead-fandom-search"
+            type="text"
+            class="form-control list-group-item"
+            [(ngModel)]="fandom"
+            [ngbTypeahead]="searchFandoms"
+            [inputFormatter]="fandomFormatter"
+            [resultFormatter]="fandomFormatter"
+            [editable]="false"
+            [ngModelOptions]="{standalone: true}"
+          />
+          <button
+            class="list-group-item btn btn-primary"
+            type="button"
+            (click)="fandomSelect(fandom)">Add</button>
+        </ul>
       </div>
-    </ul>
+    </div>
+    <p>Fanfic fandoms*: <span *ngIf="fandoms.length === 0; else fandomsAdded">No fandoms added. Please add some!</span></p>
+    <ng-template #fandomsAdded>
+      <ul class="list-group" *ngFor="let fandom of fandoms">
+        <div class="w-50" [id]="fandom.id">
+          <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
+            <span>{{ fandom.title }}</span>
+            <button class="btn btn-danger" (click)="deleteFandom(fandom.id)">X</button>
+          </span>
+        </div>
+      </ul>
+    </ng-template>
   </div>
   <div class="form-floating m-3">
     <textarea class="form-control" id="text" placeholder="Enter text here" formControlName="text"></textarea>
