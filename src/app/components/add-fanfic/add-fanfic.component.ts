@@ -13,6 +13,8 @@ import { SimpleUserDto } from "../../dto/simpleUserDto";
 import { UserService } from "../../services/user/user.service";
 import {SimpleFandomDto} from "../../dto/simpleFandomDto";
 import {FandomService} from "../../services/fandom/fandom.service";
+import {TagDto} from "../../dto/tagDto";
+import {TagService} from "../../services/tag/tag.service";
 
 @Component({
   selector: 'app-add-fanfic',
@@ -23,16 +25,19 @@ export class AddFanficComponent {
   addFanficForm: FormGroup;
   coauthors: SimpleUserDto[] = [];
   fandoms: SimpleFandomDto[] = [];
+  tags: TagDto[] = [];
 
   public user: SimpleUserDto | undefined;
   public fandom: SimpleFandomDto | undefined;
+  public tag: TagDto | undefined;
 
   constructor(
     private readonly builder: FormBuilder,
     private readonly service: FanficsService,
     private readonly toastService: AppToastService,
     private readonly userService: UserService,
-    private readonly fandomService: FandomService
+    private readonly fandomService: FandomService,
+    private readonly tagService: TagService
     ) {
       this.addFanficForm = builder.group({
         title: ['', [Validators.required]],
@@ -50,6 +55,8 @@ export class AddFanficComponent {
   userFormatter = (user: SimpleUserDto) => user.userName;
 
   fandomFormatter = (fandom: SimpleFandomDto) => fandom.title;
+
+  tagFormatter = (tag: TagDto) => tag.name;
 
   searchCoauthors: OperatorFunction<string, SimpleUserDto[]> = (text$: Observable<string>) =>
     text$.pipe(
@@ -76,6 +83,17 @@ export class AddFanficComponent {
         return new Observable<SimpleFandomDto[]>();
       }));
 
+  searchTags: OperatorFunction<string, TagDto[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      mergeMap(tagSearchLine => {
+        if (tagSearchLine) {
+          return this.tagService.getTagsByTitle(tagSearchLine);
+        }
+        return new Observable<TagDto[]>();
+      }));
+
   userSelect(user: SimpleUserDto | undefined) {
     if (user && !this.coauthors.some(u =>
         u.id === user.id)) {
@@ -94,6 +112,15 @@ export class AddFanficComponent {
     }
   }
 
+  tagSelect(tag: TagDto | undefined) {
+    if (tag && !this.tags.some(t =>
+        t.id === t.id)) {
+      this.tags.push(tag);
+      this.addFanficForm.get('tagIds')?.setValue(
+        this.tags.map(t => t.id));
+    }
+  }
+
   deleteCoauthor(id: string) {
     this.coauthors = this.coauthors.filter(u => u.id !== id);
     this.addFanficForm.get('coauthorIds')?.setValue(
@@ -101,8 +128,14 @@ export class AddFanficComponent {
   }
 
   deleteFandom(id: number) {
-    this.fandoms = this.fandoms.filter(u => u.id !== id);
+    this.fandoms = this.fandoms.filter(f => f.id !== id);
     this.addFanficForm.get('fandomIds')?.setValue(
       this.fandoms.map(f => f.id));
+  }
+
+  deleteTag(id: number) {
+    this.tags = this.tags.filter(t => t.id !== id);
+    this.addFanficForm.get('tagIds')?.setValue(
+      this.tags.map(t => t.id));
   }
 }

@@ -111,6 +111,41 @@
     </ng-template>
   </div>
   <div class="form-floating m-3">
+    <div class="mb-3 row">
+      <label for="typeahead-tag-search" class="col-xs-3 col-sm-auto col-form-label">Search for tags:</label>
+      <div class="col">
+        <ul class="list-group list-group-horizontal">
+          <input
+            id="typeahead-tag-search"
+            type="text"
+            class="form-control list-group-item"
+            [(ngModel)]="tag"
+            [ngbTypeahead]="searchTags"
+            [inputFormatter]="tagFormatter"
+            [resultFormatter]="tagFormatter"
+            [editable]="false"
+            [ngModelOptions]="{standalone: true}"
+          />
+          <button
+            class="list-group-item btn btn-primary"
+            type="button"
+            (click)="tagSelect(tag)">Add</button>
+        </ul>
+      </div>
+    </div>
+    <p>Fanfic tags: <span *ngIf="tags.length === 0; else tagsAdded">No tags added</span></p>
+    <ng-template #tagsAdded>
+      <ul class="list-group" *ngFor="let tag of tags">
+        <div class="w-50" [id]="tag.id">
+          <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
+            <span>{{ tag.name }}</span>
+            <button class="btn btn-danger" (click)="deleteTag(tag.id)">X</button>
+          </span>
+        </div>
+      </ul>
+    </ng-template>
+  </div>
+  <div class="form-floating m-3">
     <textarea class="form-control" id="text" placeholder="Enter text here" formControlName="text"></textarea>
     <label for="text">Fanfic text:</label>
   </div>
