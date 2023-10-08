@@ -1,4 +1,4 @@
-<form class="form-add-fanfic w-100 m-auto" [formGroup]="addFanficForm">
+<form class="form-add-fanfic w-100 m-auto" [formGroup]="addFanficForm" (submit)="createFanfic()">
   <h1 class="display-3">Add new fanfic</h1>
   <div class="form-floating m-3">
     <input class="form-control" type="text" id="title" placeholder="Enter title here" maxlength="30" formControlName="title">

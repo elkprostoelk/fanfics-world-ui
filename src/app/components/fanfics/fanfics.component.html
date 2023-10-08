@@ -1,5 +1,5 @@
 <div class="col">
-  <div class="card m-3 text-bg-success" *ngFor="let fanfic of (fanfics$ | async)?.pageContent">
+  <div class="card m-3 text-bg-light" *ngFor="let fanfic of (fanfics$ | async)?.pageContent">
     <div class="card-body">
       <h4 class="card-title">{{fanfic?.title}}</h4>
       <hr />
@@ -7,6 +7,9 @@
       <h6 class="card-subtitle mb-2" *ngIf="fanfic.coauthors?.length">Coauthors: {{getCoauthorsNames(fanfic)}}</h6>
       <h6 class="card-subtitle mb-2">
         Fandoms: {{this.fanficsService.getFandomsNamesLine(fanfic.fandoms)}}
+      </h6>
+      <h6 class="card-subtitle mb-2">
+        Tags: {{this.tagsService.getTagsNamesLine(fanfic.tags)}}
       </h6>
       <div class="card-text mb-1">
         Created: {{fanfic?.createdDate | date:'MMMM d y h:mm a'}}

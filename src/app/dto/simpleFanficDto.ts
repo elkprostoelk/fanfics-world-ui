@@ -1,5 +1,6 @@
 import { SimpleUserDto } from "./simpleUserDto";
 import { SimpleFandomDto } from "./simpleFandomDto";
+import {TagDto} from "./tagDto";
 
 export interface SimpleFanficDto {
   id: number;
@@ -25,4 +26,6 @@ export interface SimpleFanficDto {
   coauthors: SimpleUserDto[];
 
   fandoms: SimpleFandomDto[];
+
+  tags: TagDto[];
 }

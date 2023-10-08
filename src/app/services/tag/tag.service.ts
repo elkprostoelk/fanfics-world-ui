@@ -14,4 +14,8 @@ export class TagService {
   getTagsByTitle(tagSearchLine: string) {
     return this.http.get<TagDto[]>(`${environment.apiPath}${this.tagPath}search?title=${tagSearchLine}`);
   }
+
+  getTagsNamesLine(tags: TagDto[]): string {
+    return tags.length > 0 ? tags.map(t => t.name).join(', ') : 'not specified';
+  }
 }

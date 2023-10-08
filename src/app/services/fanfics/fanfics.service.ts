@@ -23,4 +23,19 @@ export class FanficsService {
   getFandomsNamesLine(fandoms: SimpleFandomDto[]): string {
     return fandoms.map(f => f.title).join(', ');
   }
+
+  createFanfic(value: any): Observable<any> {
+    return this.httpClient.post(`${environment.apiPath}${this.fanficsRoute}`,
+      {
+        title: value.title,
+        annotation: value.annotation,
+        text: value.text,
+        origin: Number(value.origin),
+        rating: Number(value.rating),
+        direction: Number(value.direction),
+        coauthorIds: value.coauthorIds,
+        fandomIds: value.fandomIds,
+        tagIds: value.tagIds
+      });
+  }
 }

@@ -5,6 +5,7 @@ import {SimpleFanficDto} from "../../dto/simpleFanficDto";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AppToastService} from "../../services/app-toast/app-toast.service";
 import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
+import {TagService} from "../../services/tag/tag.service";
 
 @Component({
   selector: 'app-fanfics',
@@ -17,6 +18,7 @@ export class FanficsComponent {
 
   constructor(
     readonly fanficsService: FanficsService,
+    readonly tagsService: TagService,
     private readonly toastService: AppToastService
   ) {
     this.fanficsService.getFanficsPage()
@@ -32,6 +34,6 @@ export class FanficsComponent {
 
   getCoauthorsNames(fanfic: SimpleFanficDto): string {
     return fanfic.coauthors?.map(author => author.userName)
-      .join(', ') ?? '';
+      .join(', ') ?? 'not specified';
   }
 }

@@ -15,6 +15,8 @@ import {SimpleFandomDto} from "../../dto/simpleFandomDto";
 import {FandomService} from "../../services/fandom/fandom.service";
 import {TagDto} from "../../dto/tagDto";
 import {TagService} from "../../services/tag/tag.service";
+import {Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-add-fanfic',
@@ -37,7 +39,10 @@ export class AddFanficComponent {
     private readonly toastService: AppToastService,
     private readonly userService: UserService,
     private readonly fandomService: FandomService,
-    private readonly tagService: TagService
+    private readonly fanficService: FanficsService,
+    private readonly tagService: TagService,
+    private readonly toasterService: AppToastService,
+    private readonly router: Router
     ) {
       this.addFanficForm = builder.group({
         title: ['', [Validators.required]],
@@ -114,7 +119,7 @@ export class AddFanficComponent {
 
   tagSelect(tag: TagDto | undefined) {
     if (tag && !this.tags.some(t =>
-        t.id === t.id)) {
+        t.id === tag.id)) {
       this.tags.push(tag);
       this.addFanficForm.get('tagIds')?.setValue(
         this.tags.map(t => t.id));
@@ -137,5 +142,17 @@ export class AddFanficComponent {
     this.tags = this.tags.filter(t => t.id !== id);
     this.addFanficForm.get('tagIds')?.setValue(
       this.tags.map(t => t.id));
+  }
+
+  createFanfic() {
+    this.fanficService.createFanfic(this.addFanficForm.value)
+      .subscribe({
+        next: () => {
+          this.toasterService
+            .show('Success!', 'Fanfic successfully added!');
+          setTimeout(() => this.router.navigateByUrl('/'), 4000);
+        },
+        error: (err: HttpErrorResponse) => this.toasterService.show('Error!', err.message)
+      });
   }
 }
