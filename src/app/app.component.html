@@ -1,30 +1,34 @@
 <div class="wrapper">
-  <header class="header navbar">
-    <a routerLink="/"><img class="img-fluid" src="assets/img/cite-main-icon.jpg" alt="Fanfics World Icon"/></a>
-    <div class="navbar-text">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <ng-container *ngIf="userLoggedIn; else notLoggedIn">
-          <button class="btn btn-light border-0" type="button" disabled="disabled">{{(authService.loggedInUser | async)?.userName}}</button>
-          <button class="btn btn-sm btn-light" type="button" [routerLink]="['/add-fanfic']">Add fanfic</button>
-          <button class="btn btn-sm btn-light" type="button" (click)="logoutUser()">Logout</button>
-        </ng-container>
-        <ng-template #notLoggedIn>
-          <button class="btn btn-sm btn-light me-md-2" type="button" routerLink="/login">Login</button>
-          <button class="btn btn-sm btn-light" type="button" routerLink="/register">Register</button>
-        </ng-template>
-        <select class="form-select bg-light border-dark w-50 m-1" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
-          <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
-            {{ language }}
-          </option>
-        </select>
-      </div>
+  <header>
+    <div class="main-icon">
+      <a routerLink="/"><img class="main-img" src="assets/img/cite-main-icon.jpg" alt="Fanfics World Icon"/></a>
+    </div>
+    <div class="user-tools">
+      <select class="lang-select" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
+        <option
+          class="lang-select-option"
+          [value]="language"
+          *ngFor="let language of translate.getLangs()"
+          [selected]="language === translate.currentLang">
+          {{ language }}
+        </option>
+      </select>
+      <ng-container *ngIf="userLoggedIn; else notLoggedIn">
+        <span class="user">{{(authService.loggedInUser | async)?.userName}}</span>
+        <button class="top-panel-button" type="button" [routerLink]="['/add-fanfic']">Add fanfic</button>
+        <button class="top-panel-button" type="button" (click)="logoutUser()">Logout</button>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <button class="top-panel-button" type="button" routerLink="/login">Login</button>
+        <button class="top-panel-button" type="button" routerLink="/register">Register</button>
+      </ng-template>
     </div>
   </header>
-  <main class="main">
+  <main>
     <router-outlet></router-outlet>
   </main>
-  <footer class="footer">
-    &copy; Developed by <a class="github-link" href="https://github.com/elkprostoelk" target="new" title="My GitHub account">elkprostoelk</a>. All rights reserved.
+  <footer>
+    <div>&copy; Developed by <a class="github-link" href="https://github.com/elkprostoelk" target="new" title="My GitHub account">elkprostoelk</a>. All rights reserved.</div>
   </footer>
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
