@@ -17,6 +17,7 @@ import { FanficsComponent } from './components/fanfics/fanfics.component';
 import {JwtModule} from "@auth0/angular-jwt";
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AddFanficComponent } from './components/add-fanfic/add-fanfic.component';
+import { BackButtonComponent } from './components/back-button/back-button.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -29,7 +30,8 @@ export function tokenGetter() {
     LoginComponent,
     FanficsComponent,
     NotFoundComponent,
-    AddFanficComponent
+    AddFanficComponent,
+    BackButtonComponent
   ],
   imports: [
     BrowserModule,
