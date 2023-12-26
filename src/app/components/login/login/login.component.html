@@ -1,18 +1,18 @@
-<div class="text-center">
-  <form class="form-signin w-100 m-auto" [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
-    <img class="mb-4" src="assets/img/cite-main-icon.jpg" alt="Fanfics World icon">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+<div class="login-form-wrapper">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+    <img class="main-img" style="width: 20%" src="assets/img/cite-main-icon.jpg" alt="Fanfics World icon">
+    <h1>Please sign in</h1>
 
-    <div class="form-floating">
-      <input class="form-control" type="text" id="floatingInput" placeholder="username" formControlName="login">
-      <label for="floatingInput">Username</label>
+    <div class="text-field-wrapper">
+      <label class="field-label" for="floatingInput">Username:</label>
+      <input class="text-input" type="text" id="floatingInput" placeholder="username" formControlName="login">
     </div>
-    <div class="form-floating">
-      <input class="form-control" type="password" id="floatingPassword" placeholder="Password" formControlName="password">
-      <label for="floatingPassword">Password</label>
+    <div class="text-field-wrapper">
+      <label class="field-label" for="floatingPassword">Password:</label>
+      <input class="text-input" type="password" id="floatingPassword" placeholder="Password" formControlName="password">
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="loginForm.invalid">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2022–{{date.getFullYear()}}</p>
+    <button class="login-button" type="submit" [disabled]="loginForm.invalid">Sign in</button>
+    <p class="text-muted" style="margin: 1rem">&copy; 2022–{{date.getFullYear()}}</p>
   </form>
 </div>

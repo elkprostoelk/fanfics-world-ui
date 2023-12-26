@@ -39,10 +39,6 @@ span.user {
     align-items: center;
     justify-content: space-between;
 
-    .main-icon .main-img {
-      border-radius: 10px;
-    }
-
     .user-tools {
       display: flex;
       flex-direction: row;
