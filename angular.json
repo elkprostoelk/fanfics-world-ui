@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "fanfics-world-ui:build:production"
+              "buildTarget": "fanfics-world-ui:build:production"
             },
             "development": {
-              "browserTarget": "fanfics-world-ui:build:development"
+              "buildTarget": "fanfics-world-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fanfics-world-ui:build"
+            "buildTarget": "fanfics-world-ui:build"
           }
         },
         "test": {

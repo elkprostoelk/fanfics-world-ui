@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {inject, NgModule} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from "./components/login/login/login.component";
 import { FanficsComponent } from "./components/fanfics/fanfics.component";
@@ -11,7 +11,7 @@ const routes: Routes = [
   { component: LoginComponent, path: 'login' },
   { component: FanficsComponent, path: '' },
   { path: 'fanfics',   redirectTo: '' },
-  { component: AddFanficComponent, path: 'add-fanfic', canActivate: [AuthGuardService] },
+  { component: AddFanficComponent, path: 'add-fanfic', canActivate: [() => inject(AuthGuardService).canActivate()] },
   { component: FanficPageComponent, path: 'fanfic/:id' },
   { component: NotFoundComponent, path: '**' }
 ];

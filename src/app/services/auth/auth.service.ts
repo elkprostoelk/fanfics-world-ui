@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean {
-    let token = tokenGetter() ?? undefined;
+    let token = tokenGetter() ?? null;
     return !this.jwtHelper.isTokenExpired(token) &&
       this.loggedUserSubject.getValue() !== undefined;
   }
