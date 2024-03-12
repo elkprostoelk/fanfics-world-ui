@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import {AppToastService} from "../../../services/app-toast/app-toast.service";
@@ -12,10 +12,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class LoginComponent {
   date: Date = new Date();
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly toastService: AppToastService) {

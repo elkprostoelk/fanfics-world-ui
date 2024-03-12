@@ -10,7 +10,7 @@ import {FanficPageComponent} from "./components/fanfic-page/fanfic-page.componen
 const routes: Routes = [
   { component: LoginComponent, path: 'login' },
   { component: FanficsComponent, path: '' },
-  { path: 'fanfics',   redirectTo: '', pathMatch: 'full' },
+  { path: 'fanfics',   redirectTo: '' },
   { component: AddFanficComponent, path: 'add-fanfic', canActivate: [AuthGuardService] },
   { component: FanficPageComponent, path: 'fanfic/:id' },
   { component: NotFoundComponent, path: '**' }

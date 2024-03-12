@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -24,7 +24,7 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./add-fanfic.component.css'],
 })
 export class AddFanficComponent {
-  addFanficForm: FormGroup;
+  addFanficForm: UntypedFormGroup;
   coauthors: SimpleUserDto[] = [];
   fandoms: SimpleFandomDto[] = [];
   tags: TagDto[] = [];
@@ -34,7 +34,7 @@ export class AddFanficComponent {
   public tag: TagDto | undefined;
 
   constructor(
-    private readonly builder: FormBuilder,
+    private readonly builder: UntypedFormBuilder,
     private readonly service: FanficsService,
     private readonly toastService: AppToastService,
     private readonly userService: UserService,
