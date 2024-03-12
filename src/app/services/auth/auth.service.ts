@@ -7,7 +7,9 @@ import { tokenGetter } from "../../app.module";
 import { environment } from "../../../environments/environment";
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private loggedUserSubject: BehaviorSubject<UserDto | undefined>;
   public loggedInUser: Observable<UserDto | undefined>;
@@ -36,7 +38,7 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean {
-    let token = tokenGetter() ?? undefined;
+    let token = tokenGetter() ?? null;
     return !this.jwtHelper.isTokenExpired(token) &&
       this.loggedUserSubject.getValue() !== undefined;
   }

@@ -3,7 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {TagDto} from "../../dto/tagDto";
 import {environment} from "../../../environments/environment";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TagService {
   private readonly tagPath: string = 'tag/';
 
