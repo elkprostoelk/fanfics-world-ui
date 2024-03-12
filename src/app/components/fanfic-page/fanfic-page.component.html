@@ -1,0 +1,35 @@
+<div class="fanfic-page" *ngIf="fanfic">
+  <div class="fanfic-page-header">
+    <h1>{{fanfic.title}}</h1>
+    <h2>Views: {{fanfic.views}}</h2>
+  </div>
+
+  <hr />
+
+  <div class="fanfic-info">
+    <div id="authors">
+      <div>Author: {{ fanfic.author.userName }}</div>
+      <div *ngIf="fanfic.coauthors && fanfic.coauthors.length > 0">Coauthors: {{getCoauthorsNames()}}</div>
+    </div>
+    <div id="fandoms">
+      Fandoms: <span *ngFor="let fandom of fanfic.fandoms; let isLast = last">{{fandom.title}}{{!isLast ? ', ' : ''}}</span>
+    </div>
+    <div id="tags">
+      Tags: <span *ngIf="fanfic.tags.length === 0">none</span>
+      <span *ngFor="let tag of fanfic.tags; let isLast = last">
+        {{tag.name}}{{!isLast ? ', ' : ''}}
+      </span>
+    </div>
+    <div id="dates">
+      Created: {{fanfic.createdDate | date:'d.MM.YYYY HH:MM zzz'}} <br />
+      Last modified: {{fanfic.lastModified | date:'d.MM.YYYY HH:MM zzz'}}
+    </div>
+    <div id="annotation">
+      Annotation: {{fanfic.annotation ?? 'not specified'}}
+    </div>
+
+    <br /><br />
+
+    <div class="fanfic-text" [innerHTML]="fanfic.text"></div>
+  </div>
+</div>
