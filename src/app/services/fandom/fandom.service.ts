@@ -4,9 +4,7 @@ import {Observable} from "rxjs";
 import {SimpleFandomDto} from "../../dto/simpleFandomDto";
 import {environment} from "../../../environments/environment";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FandomService {
   private readonly fandomPath: string = 'fandom/';
 

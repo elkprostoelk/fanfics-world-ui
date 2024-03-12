@@ -7,9 +7,7 @@ import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
 import {SimpleFandomDto} from "../../dto/simpleFandomDto";
 import {FanficDto} from "../../dto/fanficDto";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FanficsService {
   private readonly fanficsRoute: string = `${environment.apiPath}fanfic/`;
 

@@ -5,9 +5,7 @@ import {SimpleUserDto} from "../../dto/simpleUserDto";
 import {environment} from "../../../environments/environment";
 import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService {
   private readonly userRoute: string = 'user/';
   private readonly userV2Route: string = 'v2/user/';

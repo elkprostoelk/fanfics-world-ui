@@ -7,9 +7,7 @@ import { tokenGetter } from "../../app.module";
 import { environment } from "../../../environments/environment";
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   private loggedUserSubject: BehaviorSubject<UserDto | undefined>;
   public loggedInUser: Observable<UserDto | undefined>;
