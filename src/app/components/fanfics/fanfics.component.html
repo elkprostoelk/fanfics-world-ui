@@ -1,7 +1,9 @@
 <div class="col">
   <div class="card m-3 text-bg-light" *ngFor="let fanfic of (fanfics$ | async)?.pageContent">
     <div class="card-body">
-      <h4 class="card-title">{{fanfic?.title}}</h4>
+      <h4 class="card-title">
+        <a [routerLink]="['fanfic', fanfic?.id]">{{fanfic?.title}}</a>
+      </h4>
       <hr />
       <h6 class="card-subtitle mb-2">Author: {{fanfic.author.userName}}</h6>
       <h6 class="card-subtitle mb-2" *ngIf="fanfic.coauthors?.length">Coauthors: {{getCoauthorsNames(fanfic)}}</h6>
@@ -33,8 +35,6 @@
       <p class="card-text">
         {{fanfic?.annotation}}
       </p>
-      <a href="#" class="card-link">Card link</a>
-      <a href="#" class="card-link">Another link</a>
     </div>
   </div>
 </div>
