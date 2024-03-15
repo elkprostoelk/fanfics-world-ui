@@ -1,4 +1,6 @@
-export interface SimpleUserDto {
-  id: string;
-  userName: string;
+export class SimpleUserDto {
+  constructor(
+    public id: string,
+    public userName: string
+  ) {}
 }

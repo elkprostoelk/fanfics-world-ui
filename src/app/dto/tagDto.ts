@@ -1,4 +1,6 @@
-export interface TagDto {
-  id: number;
-  name: string;
+export class TagDto {
+  constructor(
+    public id: number,
+    public name: string
+  ) {}
 }

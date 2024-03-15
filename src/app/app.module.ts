@@ -19,6 +19,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AddFanficComponent } from './components/add-fanfic/add-fanfic.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { FanficPageComponent } from './components/fanfic-page/fanfic-page.component';
+import {FanficItemComponent} from "./components/fanfics/fanfic-item/fanfic-item.component";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -35,29 +36,30 @@ export function tokenGetter() {
     BackButtonComponent,
     FanficPageComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
-    AppRoutingModule,
-    NgbModule,
-    NgbTypeaheadModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter
-      }
-    }),
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
+        AppRoutingModule,
+        NgbModule,
+        NgbTypeaheadModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter
+            }
+        }),
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        FanficItemComponent
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

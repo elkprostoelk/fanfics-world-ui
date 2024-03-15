@@ -3,6 +3,8 @@ import {FanficDto} from "../../dto/fanficDto";
 import {FanficsService} from "../../services/fanfics/fanfics.service";
 import {ActivatedRoute} from "@angular/router";
 import {map, mergeMap} from "rxjs";
+import {AppToastService} from "../../services/app-toast/app-toast.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-fanfic-page',
@@ -10,9 +12,10 @@ import {map, mergeMap} from "rxjs";
   styleUrls: ['./fanfic-page.component.less']
 })
 export class FanficPageComponent implements OnInit {
-  fanfic: FanficDto | null = null;
+  fanfic?: FanficDto;
   constructor(
     private readonly fanficService: FanficsService,
+    private readonly toastService: AppToastService,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -21,7 +24,7 @@ export class FanficPageComponent implements OnInit {
         mergeMap(fanficId => this.fanficService.getFanfic(fanficId)))
       .subscribe({
         next: fanficDto => this.fanfic = fanficDto,
-        error: err => console.error(err)
+        error: (err: HttpErrorResponse) => this.toastService.show('Error!', err.error)
       });
   }
 

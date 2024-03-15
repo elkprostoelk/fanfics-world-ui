@@ -1,6 +1,8 @@
-export interface UserDto {
-  id: number,
-  userName: string;
-  role: string;
-  expires: Date
+export class UserDto {
+  constructor(
+    public id: number,
+    public userName: string,
+    public role: string,
+    public expires: Date
+) {}
 }

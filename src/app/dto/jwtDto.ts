@@ -1,3 +1,3 @@
-export interface JwtDto {
-  jwt: string;
+export class JwtDto {
+  constructor(public jwt: string) { }
 }

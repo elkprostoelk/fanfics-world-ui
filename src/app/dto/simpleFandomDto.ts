@@ -1,4 +1,6 @@
-export interface SimpleFandomDto {
-  id: number;
-  title: string;
+export class SimpleFandomDto {
+  constructor(
+    public id: number,
+    public title: string
+  ) {}
 }

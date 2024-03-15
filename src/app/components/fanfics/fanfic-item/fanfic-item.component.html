@@ -1,0 +1,38 @@
+<div class="card m-3 text-bg-light" *ngIf="fanfic">
+  <div class="card-body">
+    <h4 class="card-title">
+      <a [routerLink]="['fanfic', fanfic.id]">{{fanfic.title}}</a>
+    </h4>
+    <hr />
+    <h6 class="card-subtitle mb-2">Author: {{fanfic.author.userName}}</h6>
+    <h6 class="card-subtitle mb-2" *ngIf="fanfic.coauthors.length">Coauthors: {{getCoauthorsNames(fanfic)}}</h6>
+    <h6 class="card-subtitle mb-2">
+      Fandoms: {{this.fanficsService.getFandomsNamesLine(fanfic.fandoms)}}
+    </h6>
+    <h6 class="card-subtitle mb-2">
+      Tags: {{this.tagsService.getTagsNamesLine(fanfic.tags)}}
+    </h6>
+    <div class="card-text mb-1">
+      Created: {{fanfic.createdDate | date:'MMMM d y h:mm a'}}
+    </div>
+    <div class="card-text mb-1">
+      Last modified: {{fanfic.lastModified | date:'MMMM d y h:mm a'}}
+    </div>
+    <div class="card-text mb-1">
+      Direction: {{fanfic.direction}}
+    </div>
+    <div class="card-text mb-1">
+      Origin: {{fanfic.origin}}
+    </div>
+    <div class="card-text mb-1">
+      Rating: {{fanfic.rating}}
+    </div>
+    <div class="card-text mb-1">
+      Status: {{fanfic.status}}
+    </div>
+    <br />
+    <p class="card-text">
+      {{fanfic.annotation}}
+    </p>
+  </div>
+</div>
