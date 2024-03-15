@@ -4,7 +4,7 @@ import { AppToastService } from "../../../services/app-toast/app-toast.service";
 @Component({
   selector: 'app-toasts',
   templateUrl: './app-toasts.component.html',
-  styleUrls: ['./app-toasts.component.css']
+  styleUrls: ['./app-toasts.component.less']
 })
 export class AppToastsComponent {
   toastService: AppToastService;

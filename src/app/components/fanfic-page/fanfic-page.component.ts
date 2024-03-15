@@ -7,7 +7,7 @@ import {map, mergeMap} from "rxjs";
 @Component({
   selector: 'app-fanfic-page',
   templateUrl: './fanfic-page.component.html',
-  styleUrls: ['./fanfic-page.component.css']
+  styleUrls: ['./fanfic-page.component.less']
 })
 export class FanficPageComponent implements OnInit {
   fanfic: FanficDto | null = null;

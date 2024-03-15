@@ -10,7 +10,7 @@ import {TagService} from "../../services/tag/tag.service";
 @Component({
   selector: 'app-fanfics',
   templateUrl: './fanfics.component.html',
-  styleUrls: ['./fanfics.component.css']
+  styleUrls: ['./fanfics.component.less']
 })
 export class FanficsComponent {
   fanfics$: BehaviorSubject<ServicePagedResultDto<SimpleFanficDto[]> | undefined>

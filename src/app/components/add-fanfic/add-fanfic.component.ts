@@ -21,7 +21,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 @Component({
   selector: 'app-add-fanfic',
   templateUrl: './add-fanfic.component.html',
-  styleUrls: ['./add-fanfic.component.css'],
+  styleUrls: ['./add-fanfic.component.less'],
 })
 export class AddFanficComponent {
   addFanficForm: UntypedFormGroup;
