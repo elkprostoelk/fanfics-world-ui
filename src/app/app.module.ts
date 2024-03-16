@@ -7,8 +7,6 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {NgbModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
-import { AppToastsComponent } from './components/app-toasts/app-toasts/app-toasts.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from './components/login/login/login.component';
 import { RouterModule } from "@angular/router";
@@ -20,6 +18,12 @@ import { AddFanficComponent } from './components/add-fanfic/add-fanfic.component
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { FanficPageComponent } from './components/fanfic-page/fanfic-page.component';
 import {FanficItemComponent} from "./components/fanfics/fanfic-item/fanfic-item.component";
+import {PaginatorModule} from "primeng/paginator";
+import {DropdownModule} from "primeng/dropdown";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ScrollTopModule} from "primeng/scrolltop";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -28,7 +32,6 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    AppToastsComponent,
     LoginComponent,
     FanficsComponent,
     NotFoundComponent,
@@ -36,32 +39,36 @@ export function tokenGetter() {
     BackButtonComponent,
     FanficPageComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: httpTranslateLoader,
-                deps: [HttpClient]
-            }
-        }),
-        AppRoutingModule,
-        NgbModule,
-        NgbTypeaheadModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter
-            }
-        }),
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        RouterModule,
-        FanficItemComponent
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
+    AppRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    FanficItemComponent,
+    DropdownModule,
+    PaginatorModule,
+    ScrollTopModule,
+    ToastModule
+  ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

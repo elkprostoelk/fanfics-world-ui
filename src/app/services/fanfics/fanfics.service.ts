@@ -11,22 +11,23 @@ import {FanficDto} from "../../dto/fanficDto";
   providedIn: 'root'
 })
 export class FanficsService {
-  private readonly fanficsRoute: string = `${environment.apiPath}fanfic/`;
+  private readonly fanficsRoute: string = `${environment.apiPath}fanfic`;
 
   constructor(
     private readonly httpClient: HttpClient
   ) { }
 
   getFanfic(id: number): Observable<FanficDto> {
-    return this.httpClient.get<FanficDto>(`${this.fanficsRoute}${id}`);
+    return this.httpClient.get<FanficDto>(`${this.fanficsRoute}/${id}`);
   }
 
-  getFanficsPage(): Observable<ServicePagedResultDto<SimpleFanficDto[]>> {
-    return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto[]>>(this.fanficsRoute);
-  }
-
-  getFandomsNamesLine(fandoms: SimpleFandomDto[]): string {
-    return fandoms.map(f => f.title).join(', ');
+  getFanficsPage(page: number, itemsPerPage: number): Observable<ServicePagedResultDto<SimpleFanficDto[]>> {
+    return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto[]>>(`${this.fanficsRoute}`, {
+      params: {
+        'page': page + 1,
+        'itemsPerPage': itemsPerPage
+      }
+    });
   }
 
   createFanfic(value: any): Observable<any> {

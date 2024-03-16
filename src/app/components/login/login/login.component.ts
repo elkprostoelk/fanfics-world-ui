@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../../services/auth/auth.service";
 import {Router} from "@angular/router";
-import {AppToastService} from "../../../services/app-toast/app-toast.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -12,29 +12,31 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class LoginComponent {
   date: Date = new Date();
-  loginForm: UntypedFormGroup;
+  loginForm: UntypedFormGroup = this.formBuilder.group({
+    login: ['', [Validators.required, Validators.maxLength(20)]],
+    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40)]]
+  });
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly toastService: AppToastService) {
-    this.loginForm = formBuilder.group({
-      login: ['', [Validators.required, Validators.maxLength(20)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40)]]
-    });
-  }
+    private readonly messageService: MessageService) {}
 
   loginUser(value: any) {
     this.authService.loginUser(value.login, value.password)
       .subscribe({
         next: () => {
-          this.toastService.show('Success!', 'Logged in successfully!');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Logged in successfully!'
+          });
           this.router.navigateByUrl('/');
         },
-        error: (err: HttpErrorResponse) => {
-          this.toastService.show('Error!', err.error);
-        }
+        error: (err: HttpErrorResponse) => this.messageService.add({
+          severity: 'error',
+          summary: err.message ?? err
+        })
       });
   }
 }

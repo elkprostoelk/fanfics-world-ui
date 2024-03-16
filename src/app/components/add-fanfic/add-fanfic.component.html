@@ -50,12 +50,6 @@
             id="typeahead-coauthors-search"
             type="text"
             class="form-control list-group-item"
-            [(ngModel)]="user"
-            [ngbTypeahead]="searchCoauthors"
-            [inputFormatter]="userFormatter"
-            [resultFormatter]="userFormatter"
-            [editable]="false"
-            [ngModelOptions]="{standalone: true}"
           />
           <button
             class="list-group-item btn btn-primary"
@@ -85,12 +79,6 @@
             id="typeahead-fandom-search"
             type="text"
             class="form-control list-group-item"
-            [(ngModel)]="fandom"
-            [ngbTypeahead]="searchFandoms"
-            [inputFormatter]="fandomFormatter"
-            [resultFormatter]="fandomFormatter"
-            [editable]="false"
-            [ngModelOptions]="{standalone: true}"
           />
           <button
             class="list-group-item btn btn-primary"
@@ -120,12 +108,6 @@
             id="typeahead-tag-search"
             type="text"
             class="form-control list-group-item"
-            [(ngModel)]="tag"
-            [ngbTypeahead]="searchTags"
-            [inputFormatter]="tagFormatter"
-            [resultFormatter]="tagFormatter"
-            [editable]="false"
-            [ngModelOptions]="{standalone: true}"
           />
           <button
             class="list-group-item btn btn-primary"

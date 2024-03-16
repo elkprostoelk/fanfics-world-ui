@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import {
   debounceTime,
@@ -8,7 +8,6 @@ import {
   OperatorFunction
 } from "rxjs";
 import { FanficsService } from "../../services/fanfics/fanfics.service";
-import { AppToastService } from "../../services/app-toast/app-toast.service";
 import { SimpleUserDto } from "../../dto/simpleUserDto";
 import { UserService } from "../../services/user/user.service";
 import {SimpleFandomDto} from "../../dto/simpleFandomDto";
@@ -17,14 +16,25 @@ import {TagDto} from "../../dto/tagDto";
 import {TagService} from "../../services/tag/tag.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-add-fanfic',
   templateUrl: './add-fanfic.component.html',
   styleUrls: ['./add-fanfic.component.less'],
 })
-export class AddFanficComponent {
-  addFanficForm: UntypedFormGroup;
+export class AddFanficComponent implements OnInit {
+  addFanficForm: UntypedFormGroup = this.builder.group({
+    title: ['', [Validators.required]],
+    annotation: [''],
+    text: ['', [Validators.required]],
+    origin: ['', [Validators.required]],
+    rating: ['', [Validators.required]],
+    direction: ['', [Validators.required]],
+    coauthorIds: [[]],
+    fandomIds: [[], [Validators.required]],
+    tagIds: [[]],
+  });
   coauthors: SimpleUserDto[] = [];
   fandoms: SimpleFandomDto[] = [];
   tags: TagDto[] = [];
@@ -36,25 +46,15 @@ export class AddFanficComponent {
   constructor(
     private readonly builder: UntypedFormBuilder,
     private readonly service: FanficsService,
-    private readonly toastService: AppToastService,
     private readonly userService: UserService,
     private readonly fandomService: FandomService,
     private readonly fanficService: FanficsService,
     private readonly tagService: TagService,
-    private readonly toasterService: AppToastService,
-    private readonly router: Router
-    ) {
-      this.addFanficForm = builder.group({
-        title: ['', [Validators.required]],
-        annotation: [''],
-        text: ['', [Validators.required]],
-        origin: ['', [Validators.required]],
-        rating: ['', [Validators.required]],
-        direction: ['', [Validators.required]],
-        coauthorIds: [[]],
-        fandomIds: [[], [Validators.required]],
-        tagIds: [[]],
-      });
+    private readonly router: Router,
+    private readonly messageService: MessageService
+    ) {}
+
+  ngOnInit(): void {
   }
 
   userFormatter = (user: SimpleUserDto) => user.userName;
@@ -148,11 +148,16 @@ export class AddFanficComponent {
     this.fanficService.createFanfic(this.addFanficForm.value)
       .subscribe({
         next: () => {
-          this.toasterService
-            .show('Success!', 'Fanfic successfully added!');
+          this.messageService.add({
+            severity: 'success',
+            summary:  `Fanfic's successfully been added!`
+          });
           setTimeout(() => this.router.navigateByUrl('/'), 4000);
         },
-        error: (err: HttpErrorResponse) => this.toasterService.show('Error!', err.message)
+        error: (err: HttpErrorResponse) => this.messageService.add({
+          severity: 'error',
+          summary: err.message
+        })
       });
   }
 }

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { TranslateService } from "@ngx-translate/core";
-import { AppToastService } from "./services/app-toast/app-toast.service";
 import { AuthService } from "./services/auth/auth.service";
 import { Router } from "@angular/router";
 
@@ -9,17 +8,15 @@ import { Router } from "@angular/router";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent {
-  private toastService: AppToastService;
-
+export class AppComponent implements OnInit{
   constructor(
     public translate: TranslateService,
-    appToastService: AppToastService,
     readonly authService: AuthService,
-    private readonly router: Router) {
-    this.toastService = appToastService;
-    translate.addLangs(['en', 'ru']);
-    translate.setDefaultLang('en');
+    private readonly router: Router) {}
+
+  ngOnInit(): void {
+    this.translate.addLangs(['en', 'ru']);
+    this.translate.setDefaultLang('en');
   }
 
   switchLanguage(language: string): void {
