@@ -24,6 +24,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ScrollTopModule} from "primeng/scrolltop";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {AutoCompleteModule} from "primeng/autocomplete";
+import {ButtonModule} from "primeng/button";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -64,7 +68,11 @@ export function tokenGetter() {
     DropdownModule,
     PaginatorModule,
     ScrollTopModule,
-    ToastModule
+    ToastModule,
+    InputTextModule,
+    InputTextareaModule,
+    AutoCompleteModule,
+    ButtonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

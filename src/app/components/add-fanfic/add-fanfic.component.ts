@@ -1,12 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map, mergeMap,
-  Observable,
-  OperatorFunction
-} from "rxjs";
 import { FanficsService } from "../../services/fanfics/fanfics.service";
 import { SimpleUserDto } from "../../dto/simpleUserDto";
 import { UserService } from "../../services/user/user.service";
@@ -17,6 +10,7 @@ import {TagService} from "../../services/tag/tag.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "primeng/api";
+import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
 
 @Component({
   selector: 'app-add-fanfic',
@@ -24,6 +18,7 @@ import {MessageService} from "primeng/api";
   styleUrls: ['./add-fanfic.component.less'],
 })
 export class AddFanficComponent implements OnInit {
+  addingInProgress: boolean = false;
   addFanficForm: UntypedFormGroup = this.builder.group({
     title: ['', [Validators.required]],
     annotation: [''],
@@ -38,14 +33,29 @@ export class AddFanficComponent implements OnInit {
   coauthors: SimpleUserDto[] = [];
   fandoms: SimpleFandomDto[] = [];
   tags: TagDto[] = [];
-
-  public user: SimpleUserDto | undefined;
-  public fandom: SimpleFandomDto | undefined;
-  public tag: TagDto | undefined;
+  readonly fanficOrigins = [
+    { id: '0', description: 'Original text (written by author)' },
+    { id: '1', description: 'Translated (agreed with author)' }
+  ];
+  readonly fanficRatings = [
+    { id: '0', description: 'G' },
+    { id: '1', description: 'PG-13' },
+    { id: '2', description: 'R' },
+    { id: '3', description: 'NC-17' },
+    { id: '4', description: 'NC-21' }
+  ];
+  readonly fanficDirections = [
+    { id: '0', description: 'Gen' },
+    { id: '1', description: 'Het' },
+    { id: '2', description: 'Slash' },
+    { id: '3', description: 'FemSlash' },
+    { id: '4', description: 'Other' },
+    { id: '5', description: 'Mixed' },
+    { id: '6', description: 'Article' }
+  ];
 
   constructor(
     private readonly builder: UntypedFormBuilder,
-    private readonly service: FanficsService,
     private readonly userService: UserService,
     private readonly fandomService: FandomService,
     private readonly fanficService: FanficsService,
@@ -55,96 +65,11 @@ export class AddFanficComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-  }
 
-  userFormatter = (user: SimpleUserDto) => user.userName;
-
-  fandomFormatter = (fandom: SimpleFandomDto) => fandom.title;
-
-  tagFormatter = (tag: TagDto) => tag.name;
-
-  searchCoauthors: OperatorFunction<string, SimpleUserDto[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      mergeMap(userNameSearchLine => {
-        if (userNameSearchLine) {
-          return this.userService.getUsersV2(userNameSearchLine, 0, 10)
-            .pipe(map(res =>
-              res.pageContent)
-            );
-        }
-        return new Observable<SimpleUserDto[]>();
-      }));
-
-  searchFandoms: OperatorFunction<string, SimpleFandomDto[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      mergeMap(fandomSearchLine => {
-        if (fandomSearchLine) {
-          return this.fandomService.getFandomsByTitle(fandomSearchLine);
-        }
-        return new Observable<SimpleFandomDto[]>();
-      }));
-
-  searchTags: OperatorFunction<string, TagDto[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      mergeMap(tagSearchLine => {
-        if (tagSearchLine) {
-          return this.tagService.getTagsByTitle(tagSearchLine);
-        }
-        return new Observable<TagDto[]>();
-      }));
-
-  userSelect(user: SimpleUserDto | undefined) {
-    if (user && !this.coauthors.some(u =>
-        u.id === user.id)) {
-      this.coauthors.push(user);
-      this.addFanficForm.get('coauthorIds')?.setValue(
-        this.coauthors.map(u => u.id));
-    }
-  }
-
-  fandomSelect(fandom: SimpleFandomDto | undefined) {
-    if (fandom && !this.fandoms.some(f =>
-        f.id === fandom.id)) {
-      this.fandoms.push(fandom);
-      this.addFanficForm.get('fandomIds')?.setValue(
-        this.fandoms.map(f => f.id));
-    }
-  }
-
-  tagSelect(tag: TagDto | undefined) {
-    if (tag && !this.tags.some(t =>
-        t.id === tag.id)) {
-      this.tags.push(tag);
-      this.addFanficForm.get('tagIds')?.setValue(
-        this.tags.map(t => t.id));
-    }
-  }
-
-  deleteCoauthor(id: string) {
-    this.coauthors = this.coauthors.filter(u => u.id !== id);
-    this.addFanficForm.get('coauthorIds')?.setValue(
-      this.coauthors.map(u => u.id));
-  }
-
-  deleteFandom(id: number) {
-    this.fandoms = this.fandoms.filter(f => f.id !== id);
-    this.addFanficForm.get('fandomIds')?.setValue(
-      this.fandoms.map(f => f.id));
-  }
-
-  deleteTag(id: number) {
-    this.tags = this.tags.filter(t => t.id !== id);
-    this.addFanficForm.get('tagIds')?.setValue(
-      this.tags.map(t => t.id));
   }
 
   createFanfic() {
+    this.addingInProgress = true;
     this.fanficService.createFanfic(this.addFanficForm.value)
       .subscribe({
         next: () => {
@@ -157,7 +82,41 @@ export class AddFanficComponent implements OnInit {
         error: (err: HttpErrorResponse) => this.messageService.add({
           severity: 'error',
           summary: err.message
+        }),
+        complete: () => this.addingInProgress = false
+      });
+  }
+
+  filterCoauthors($event: AutoCompleteCompleteEvent) {
+    this.userService.getUsers($event.query)
+      .subscribe({
+        next: (users) => this.coauthors = users,
+        error: () => this.messageService.add({
+          severity: 'error',
+          summary: 'Could not get users!'
         })
       });
+  }
+
+  filterFandoms($event: AutoCompleteCompleteEvent) {
+    this.fandomService.getFandomsByTitle($event.query)
+      .subscribe({
+        next: (fandoms) => this.fandoms = fandoms,
+        error: () => this.messageService.add({
+          severity: 'error',
+          summary: 'Could not get fandoms!'
+        })
+      })
+  }
+
+  filterTags($event: AutoCompleteCompleteEvent) {
+    this.tagService.getTagsByTitle($event.query)
+      .subscribe({
+        next: (tags) => this.tags = tags,
+        error: () => this.messageService.add({
+          severity: 'error',
+          summary: 'Could not get tags!'
+        })
+      })
   }
 }

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "../../../environments/environment";
 import { SimpleFanficDto } from "../../dto/simpleFanficDto";
 import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
-import {SimpleFandomDto} from "../../dto/simpleFandomDto";
 import {FanficDto} from "../../dto/fanficDto";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +30,7 @@ export class FanficsService {
   }
 
   createFanfic(value: any): Observable<any> {
-    return this.httpClient.post(`${environment.apiPath}${this.fanficsRoute}`,
+    return this.httpClient.post(`${this.fanficsRoute}`,
       {
         title: value.title,
         annotation: value.annotation,
@@ -39,9 +38,9 @@ export class FanficsService {
         origin: Number(value.origin),
         rating: Number(value.rating),
         direction: Number(value.direction),
-        coauthorIds: value.coauthorIds,
-        fandomIds: value.fandomIds,
-        tagIds: value.tagIds
+        coauthorIds: value.coauthorIds.map((a: { id: string; }) => a.id),
+        fandomIds: value.fandomIds.map((f: { id: number; }) => f.id),
+        tagIds: value.tagIds.map((t: { id: number; }) => t.id)
       });
   }
 }

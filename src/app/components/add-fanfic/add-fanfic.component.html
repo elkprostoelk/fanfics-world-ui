@@ -1,136 +1,86 @@
 <app-back-button></app-back-button>
-<form class="form-add-fanfic w-100 m-auto" [formGroup]="addFanficForm" (submit)="createFanfic()">
-  <h1 class="display-3">Add new fanfic</h1>
-  <div class="form-floating m-3">
-    <input class="form-control" type="text" id="title" placeholder="Enter title here" maxlength="30" formControlName="title">
-    <label for="title">Fanfic title* (up to 30 symbols):</label>
+<form class="form-add-fanfic" [formGroup]="addFanficForm" (submit)="createFanfic()">
+  <h1>Add new fanfic</h1>
+  <div class="form-input-item">
+    <label for="title">Fanfic title<span class="form-required-mark">*</span> (up to 30 symbols):</label>
+    <input pInputText type="text" id="title" placeholder="Enter title here" maxlength="30" formControlName="title">
   </div>
-  <div class="form-floating m-3">
-    <textarea class="form-control" id="annotation" placeholder="Enter annotation here" maxlength="100" formControlName="annotation"></textarea>
+  <div class="form-input-item">
     <label for="annotation">Fanfic annotation (up to 100 symbols):</label>
+    <textarea id="annotation" pInputTextarea placeholder="Enter annotation here" maxlength="100" formControlName="annotation"></textarea>
   </div>
-  <div class="form-floating m-3">
-    <select class="form-select" id="origin" formControlName="origin">
-      <option value="" selected="selected" disabled="disabled">Select a fanfic origin:</option>
-      <option value="0">Original text (written by author)</option>
-      <option value="1">Translated (agreed with author)</option>
-    </select>
-    <label for="origin">Fanfic origin* :</label>
+  <div class="form-input-item">
+    <label for="origin">Fanfic origin<span class="form-required-mark">*</span> :</label>
+    <p-dropdown
+      id="origin"
+      [options]="fanficOrigins"
+      optionValue="id"
+      optionLabel="description"
+      placeholder="Select a fanfic origin"
+      formControlName="origin">
+    </p-dropdown>
   </div>
-  <div class="form-floating m-3">
-    <select class="form-select" id="rating" formControlName="rating">
-      <option value="" selected="selected" disabled="disabled">Select a fanfic rating:</option>
-      <option value="0">G</option>
-      <option value="1">PG-13</option>
-      <option value="2">R</option>
-      <option value="3">NC-17</option>
-      <option value="4">NC-21</option>
-    </select>
-    <label for="rating">Fanfic rating* :</label>
+  <div class="form-input-item">
+    <label for="rating">Fanfic rating<span class="form-required-mark">*</span> :</label>
+    <p-dropdown
+      id="rating"
+      [options]="fanficRatings"
+      optionValue="id"
+      optionLabel="description"
+      placeholder="Select a fanfic rating"
+      formControlName="rating">
+    </p-dropdown>
   </div>
-  <div class="form-floating m-3">
-    <select class="form-select" id="direction" formControlName="direction">
-      <option value="" selected="selected" disabled="disabled">Select a fanfic direction:</option>
-      <option value="0">Gen</option>
-      <option value="1">Het</option>
-      <option value="2">Slash</option>
-      <option value="3">FemSlash</option>
-      <option value="4">Other</option>
-      <option value="5">Mixed</option>
-      <option value="6">Article</option>
-    </select>
-    <label for="direction">Fanfic direction* :</label>
+  <div class="form-input-item">
+    <label for="direction">Fanfic direction<span class="form-required-mark">*</span> :</label>
+    <p-dropdown
+      id="direction"
+      [options]="fanficDirections"
+      optionValue="id"
+      optionLabel="description"
+      placeholder="Select a fanfic direction"
+      formControlName="direction">
+    </p-dropdown>
   </div>
-  <div class="form-floating m-3">
-    <div class="mb-3 row">
-      <label for="typeahead-coauthors-search" class="col-xs-3 col-sm-auto col-form-label">Search for coauthors:</label>
-      <div class="col">
-        <ul class="list-group list-group-horizontal">
-          <input
-            id="typeahead-coauthors-search"
-            type="text"
-            class="form-control list-group-item"
-          />
-          <button
-            class="list-group-item btn btn-primary"
-            type="button"
-            (click)="userSelect(user)">Add</button>
-        </ul>
-      </div>
-    </div>
-    <p>Fanfic coauthors: <span *ngIf="coauthors.length === 0; else coauthorsAdded">No coauthors added</span></p>
-    <ng-template #coauthorsAdded>
-      <ul class="list-group" *ngFor="let coauthor of coauthors">
-        <div class="w-50" [id]="coauthor.id">
-          <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
-            <span>{{ coauthor.userName }}</span>
-            <button class="btn btn-danger" (click)="deleteCoauthor(coauthor.id)">X</button>
-          </span>
-        </div>
-      </ul>
-    </ng-template>
+  <div class="form-input-item">
+    <label for="typeahead-coauthors-search">Coauthors:</label>
+    <p-autoComplete
+      id="typeahead-coauthors-search"
+      formControlName="coauthorIds"
+      optionLabel="userName"
+      placeholder="Search for coauthors"
+      [suggestions]="coauthors"
+      (completeMethod)="filterCoauthors($event)"
+      [multiple]="true">
+    </p-autoComplete>
   </div>
-  <div class="form-floating m-3">
-    <div class="mb-3 row">
-      <label for="typeahead-fandom-search" class="col-xs-3 col-sm-auto col-form-label">Search for fandoms:</label>
-      <div class="col">
-        <ul class="list-group list-group-horizontal">
-          <input
-            id="typeahead-fandom-search"
-            type="text"
-            class="form-control list-group-item"
-          />
-          <button
-            class="list-group-item btn btn-primary"
-            type="button"
-            (click)="fandomSelect(fandom)">Add</button>
-        </ul>
-      </div>
-    </div>
-    <p>Fanfic fandoms*: <span *ngIf="fandoms.length === 0; else fandomsAdded">No fandoms added. Please add some!</span></p>
-    <ng-template #fandomsAdded>
-      <ul class="list-group" *ngFor="let fandom of fandoms">
-        <div class="w-50" [id]="fandom.id">
-          <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
-            <span>{{ fandom.title }}</span>
-            <button class="btn btn-danger" (click)="deleteFandom(fandom.id)">X</button>
-          </span>
-        </div>
-      </ul>
-    </ng-template>
+  <div class="form-input-item">
+    <label for="typeahead-fandom-search">Fandoms<span class="form-required-mark">*</span>:</label>
+    <p-autoComplete
+      id="typeahead-fandom-search"
+      formControlName="fandomIds"
+      optionLabel="title"
+      placeholder="Search for fandoms"
+      [suggestions]="fandoms"
+      (completeMethod)="filterFandoms($event)"
+      [multiple]="true">
+    </p-autoComplete>
   </div>
-  <div class="form-floating m-3">
-    <div class="mb-3 row">
-      <label for="typeahead-tag-search" class="col-xs-3 col-sm-auto col-form-label">Search for tags:</label>
-      <div class="col">
-        <ul class="list-group list-group-horizontal">
-          <input
-            id="typeahead-tag-search"
-            type="text"
-            class="form-control list-group-item"
-          />
-          <button
-            class="list-group-item btn btn-primary"
-            type="button"
-            (click)="tagSelect(tag)">Add</button>
-        </ul>
-      </div>
-    </div>
-    <p>Fanfic tags: <span *ngIf="tags.length === 0; else tagsAdded">No tags added</span></p>
-    <ng-template #tagsAdded>
-      <ul class="list-group" *ngFor="let tag of tags">
-        <div class="w-50" [id]="tag.id">
-          <span class="list-group-item" style="display: flex; justify-content: space-between; align-items: center">
-            <span>{{ tag.name }}</span>
-            <button class="btn btn-danger" (click)="deleteTag(tag.id)">X</button>
-          </span>
-        </div>
-      </ul>
-    </ng-template>
+  <div class="form-input-item">
+    <label for="typeahead-tag-search">Tags:</label>
+    <p-autoComplete
+      id="typeahead-tag-search"
+      formControlName="tagIds"
+      optionLabel="name"
+      placeholder="Search for tags"
+      [suggestions]="tags"
+      (completeMethod)="filterTags($event)"
+      [multiple]="true">
+    </p-autoComplete>
   </div>
-  <div class="form-floating m-3">
-    <textarea class="form-control" id="text" placeholder="Enter text here" formControlName="text"></textarea>
-    <label for="text">Fanfic text:</label>
+  <div class="form-input-item">
+    <label for="text">Fanfic text<span class="form-required-mark">*</span>:</label>
+    <textarea pInputTextarea id="text" placeholder="Enter text here" formControlName="text"></textarea>
   </div>
-  <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="addFanficForm.invalid">Add new fanfic</button>
+  <button pButton type="submit" [loading]="addingInProgress" [disabled]="addFanficForm.invalid">Add new fanfic</button>
 </form>

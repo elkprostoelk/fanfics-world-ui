@@ -9,20 +9,14 @@ import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
   providedIn: 'root'
 })
 export class UserService {
-  private readonly userRoute: string = 'user/';
-  private readonly userV2Route: string = 'v2/user/';
+  private readonly userRoute: string = 'user';
 
   constructor(
     private readonly httpClient: HttpClient
   ) { }
 
-  getUsers(pageNumber: number, size: number): Observable<ServicePagedResultDto<SimpleUserDto[]>> {
-    return this.httpClient.get<ServicePagedResultDto<SimpleUserDto[]>>(
-      `${environment.apiPath}${this.userRoute}get-chunk/${pageNumber}/${size}`);
-  }
-
-  getUsersV2(userName: string, pageNumber: number, size: number): Observable<ServicePagedResultDto<SimpleUserDto[]>> {
-    return this.httpClient.get<ServicePagedResultDto<SimpleUserDto[]>>(
-      `${environment.apiPath}${this.userV2Route}get-chunk/${pageNumber}/${size}?userName=${userName}`);
+  getUsers(userName: string): Observable<SimpleUserDto[]> {
+    return this.httpClient.get<SimpleUserDto[]>(
+      `${environment.apiPath}${this.userRoute}?userName=${userName}`);
   }
 }
