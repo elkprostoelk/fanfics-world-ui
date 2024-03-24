@@ -5,14 +5,14 @@
 
     <div class="text-field-wrapper">
       <label class="field-label" for="floatingInput">Username:</label>
-      <input class="text-input" type="text" id="floatingInput" placeholder="username" formControlName="login">
+      <input pInputText class="text-input" type="text" id="floatingInput" placeholder="Username" formControlName="login">
     </div>
     <div class="text-field-wrapper">
       <label class="field-label" for="floatingPassword">Password:</label>
-      <input class="text-input" type="password" id="floatingPassword" placeholder="Password" formControlName="password">
+      <input pInputText class="text-input" type="password" id="floatingPassword" placeholder="Password" formControlName="password">
     </div>
 
-    <button class="login-button" type="submit" [disabled]="loginForm.invalid">Sign in</button>
+    <button pButton class="login-button" type="submit" [disabled]="loginForm.invalid">Sign in</button>
     <p class="text-muted" style="margin: 1rem">&copy; 2022–{{date.getFullYear()}}</p>
   </form>
 </div>
