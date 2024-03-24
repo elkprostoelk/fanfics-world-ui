@@ -4,15 +4,6 @@
       <a routerLink="/"><img class="main-img" src="assets/img/cite-main-icon.jpg" alt="Fanfics World Icon"/></a>
     </div>
     <div class="user-tools">
-      <select class="lang-select" #selectedLanguage (change)="switchLanguage(selectedLanguage.value)">
-        <option
-          class="lang-select-option"
-          [value]="language"
-          *ngFor="let language of translate.getLangs()"
-          [selected]="language === translate.currentLang">
-          {{ language }}
-        </option>
-      </select>
       <ng-container *ngIf="userLoggedIn; else notLoggedIn">
         <span class="user">{{(authService.loggedInUser | async)?.userName}}</span>
         <button class="top-panel-button" type="button" [routerLink]="['/add-fanfic']">Add fanfic</button>
