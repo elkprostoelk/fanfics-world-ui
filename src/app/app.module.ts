@@ -29,6 +29,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {ButtonModule} from "primeng/button";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {FanficsWorldTagComponent} from "./components/fanfics-world-tag/fanfics-world-tag.component";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -44,38 +45,39 @@ export function tokenGetter() {
     BackButtonComponent,
     FanficPageComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: httpTranslateLoader,
-                deps: [HttpClient]
-            }
-        }),
-        AppRoutingModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter
-            }
-        }),
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        RouterModule,
-        FanficItemComponent,
-        DropdownModule,
-        PaginatorModule,
-        ScrollTopModule,
-        ToastModule,
-        InputTextModule,
-        InputTextareaModule,
-        AutoCompleteModule,
-        ButtonModule,
-        ProgressSpinnerModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
+    AppRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    FanficItemComponent,
+    DropdownModule,
+    PaginatorModule,
+    ScrollTopModule,
+    ToastModule,
+    InputTextModule,
+    InputTextareaModule,
+    AutoCompleteModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+    FanficsWorldTagComponent
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     MessageService

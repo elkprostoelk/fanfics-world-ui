@@ -13,6 +13,37 @@ import {MessageService} from "primeng/api";
 })
 export class FanficPageComponent implements OnInit {
   fanfic?: FanficDto;
+  readonly fanficStatusTagIcon: {[key: string]: string} = {
+    'In progress': 'caret-right',
+    'Finished': 'check',
+    'Frozen': 'pause'
+  };
+  readonly fanficStatusTagColor: {[key: string]: string} = {
+    'In progress': '',
+    'Finished': 'green',
+    'Frozen': 'cyan'
+  };
+  readonly fanficOriginTagIcon: {[key: string]: string} = {
+    'Original Text': 'align-justify',
+    'Translation': 'globe'
+  };
+  readonly fanficRatingTagColor: {[key: string]: string} = {
+    'G': 'green',
+    'PG-13': 'lightgreen',
+    'R': 'gold',
+    'NC-17': 'darkorange',
+    'NC-21': 'darkred'
+  };
+  readonly fanficDirectionTagColor: {[key: string]: string} = {
+    'Gen': 'brown',
+    'Het': 'green',
+    'Slash': 'darkturquoise',
+    'Femslash': 'purple',
+    'Other': 'darkgreen',
+    'Mixed': 'gold',
+    'Article': 'gray'
+  };
+
   constructor(
     private readonly fanficService: FanficsService,
     private readonly messageService: MessageService,

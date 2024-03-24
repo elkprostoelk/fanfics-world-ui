@@ -7,28 +7,78 @@
   <hr />
 
   <div class="fanfic-info">
-    <div id="authors">
-      <div>Author: {{ fanfic.author.userName }}</div>
-      <div *ngIf="fanfic.coauthors && fanfic.coauthors.length > 0">Coauthors: {{getCoauthorsNames()}}</div>
+    <div class="data-item data-item-bold">
+      Author: <app-fanfics-world-tag
+      [value]="fanfic.author.userName"
+      icon="user">
+    </app-fanfics-world-tag>
     </div>
-    <div id="fandoms">
-      Fandoms: <span *ngFor="let fandom of fanfic.fandoms; let isLast = last">{{fandom.title}}{{!isLast ? ', ' : ''}}</span>
+    <div class="data-item data-item-bold" *ngIf="fanfic.coauthors.length">
+      Coauthors: <app-fanfics-world-tag
+      *ngFor="let coauthor of fanfic.coauthors; let isOdd = odd"
+      [value]="coauthor.userName"
+      [color]="isOdd ? 'yellow' : ''"
+      [textColor]="isOdd ? 'black' : ''"
+      icon="user"
+    >
+    </app-fanfics-world-tag>
     </div>
-    <div id="tags">
-      Tags: <span *ngIf="fanfic.tags.length === 0">none</span>
-      <span *ngFor="let tag of fanfic.tags; let isLast = last">
-        {{tag.name}}{{!isLast ? ', ' : ''}}
-      </span>
+    <div class="data-item data-item-bold">
+      Fandoms: <app-fanfics-world-tag
+      *ngFor="let fandom of fanfic.fandoms; let isOdd = odd"
+      [value]="fandom.title"
+      [color]="isOdd ? 'yellow' : ''"
+      [textColor]="isOdd ? 'black' : ''"
+      icon="book">
+    </app-fanfics-world-tag>
     </div>
-    <div id="dates">
-      Created: {{fanfic.createdDate | date:'d.MM.YYYY HH:MM zzz'}} <br />
-      Last modified: {{fanfic.lastModified | date:'d.MM.YYYY HH:MM zzz'}}
+    <div class="data-item data-item-bold">
+      Tags: <app-fanfics-world-tag
+      *ngFor="let tag of fanfic.tags; let isOdd = odd"
+      [value]="tag.name"
+      [color]="isOdd ? 'yellow' : ''"
+      [textColor]="isOdd ? 'black' : ''"
+      icon="bookmark">
+    </app-fanfics-world-tag>
+      <span *ngIf="fanfic.tags.length === 0" style="color: red">
+      <i class="pi pi-times" style="color: red"></i> No tags specified!
+    </span>
     </div>
-    <div id="annotation">
-      Annotation: {{fanfic.annotation ?? 'not specified'}}
+    <div class="data-item data-item-bold">
+      Direction: <app-fanfics-world-tag
+      [value]="fanfic.direction"
+      [color]="fanficDirectionTagColor[fanfic.direction]">
+    </app-fanfics-world-tag>
     </div>
-
-    <br /><br />
+    <div class="data-item data-item-bold">
+      Origin: <app-fanfics-world-tag
+      [value]="fanfic.origin"
+      [icon]="fanficOriginTagIcon[fanfic.origin]"
+      severity="info">
+    </app-fanfics-world-tag>
+    </div>
+    <div class="data-item data-item-bold">
+      Rating: <app-fanfics-world-tag
+      [value]="fanfic.rating"
+      [color]="fanficRatingTagColor[fanfic.rating]">
+    </app-fanfics-world-tag>
+    </div>
+    <div class="data-item data-item-bold">
+      Status: <app-fanfics-world-tag
+      [value]="fanfic.status"
+      [color]="fanficStatusTagColor[fanfic.status]"
+      [icon]="fanficStatusTagIcon[fanfic.status]">
+    </app-fanfics-world-tag>
+    </div>
+    <div class="data-item">
+      Created: {{fanfic.createdDate | date:'MMMM d y h:mm a z'}}
+    </div>
+    <div class="data-item">
+      Last modified: {{fanfic.lastModified | date:'MMMM d y h:mm a z'}}
+    </div>
+    <div class="data-item">
+      Annotation: {{fanfic.annotation}}
+    </div>
 
     <div class="fanfic-text" [innerHTML]="fanfic.text"></div>
   </div>
