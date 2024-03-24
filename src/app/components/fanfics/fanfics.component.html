@@ -1,14 +1,21 @@
-<div class="fanfics-page">
-  <div class="fanfics">
-    <app-fanfic-item [fanfic]="fanfic" *ngFor="let fanfic of (fanfics$ | async)?.pageContent"></app-fanfic-item>
-  </div>
-  <div class="pages">
-    <p-paginator
-      (onPageChange)="pageChangeHandler($event)"
-      [rows]="(fanfics$ | async)?.itemsPerPage ?? 1"
-      [totalRecords]="(fanfics$ | async)?.totalItems ?? 10"
-      [rowsPerPageOptions]="[10, 20, 50]"
-      [showCurrentPageReport]="true">
-    </p-paginator>
-  </div>
+<div class="spinner" *ngIf="isLoading; else displayFanfics">
+  <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
 </div>
+<ng-template #displayFanfics>
+  <div class="fanfics-page">
+    <div class="fanfics">
+      <app-fanfic-item [fanfic]="fanfic" *ngFor="let fanfic of (fanfics$ | async)?.pageContent"></app-fanfic-item>
+    </div>
+    <div class="pages" *ngIf="!isLoading">
+      <p-paginator
+        (onPageChange)="pageChangeHandler($event)"
+        [rows]="(fanfics$ | async)?.itemsPerPage ?? 1"
+        [totalRecords]="(fanfics$ | async)?.totalItems ?? 10"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [showCurrentPageReport]="true"
+        [alwaysShow]="false"
+      >
+      </p-paginator>
+    </div>
+  </div>
+</ng-template>

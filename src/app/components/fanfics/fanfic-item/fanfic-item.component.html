@@ -4,45 +4,67 @@
   </div>
   <hr />
   <div class="data-item data-item-bold">
-    Author: <app-author-tag [author]="fanfic.author"></app-author-tag>
+    Author: <app-fanfics-world-tag
+              [value]="fanfic.author.userName"
+              icon="user">
+            </app-fanfics-world-tag>
   </div>
   <div class="data-item data-item-bold" *ngIf="fanfic.coauthors.length">
-    Coauthors: <app-author-tag
-                  *ngFor="let coauthor of fanfic.coauthors"
-                  [author]="coauthor">
-               </app-author-tag>
+    Coauthors: <app-fanfics-world-tag
+                  *ngFor="let coauthor of fanfic.coauthors; let isOdd = odd"
+                  [value]="coauthor.userName"
+                  [color]="isOdd ? 'yellow' : ''"
+                  [textColor]="isOdd ? 'black' : ''"
+                  icon="user"
+               >
+               </app-fanfics-world-tag>
   </div>
   <div class="data-item data-item-bold">
-    Fandoms: <p-tag
-                *ngFor="let fandom of fanfic.fandoms"
+    Fandoms: <app-fanfics-world-tag
+                *ngFor="let fandom of fanfic.fandoms; let isOdd = odd"
                 [value]="fandom.title"
-                [style]="{'margin': '0 .25rem'}">
-             </p-tag>
+                [color]="isOdd ? 'yellow' : ''"
+                [textColor]="isOdd ? 'black' : ''"
+                icon="book">
+             </app-fanfics-world-tag>
   </div>
   <div class="data-item data-item-bold">
-    Tags: <p-tag
-                *ngFor="let tag of fanfic.tags"
-                [value]="tag.name"
-                [style]="{'margin': '0 .25rem'}">
-            <ng-template pTemplate="icon">
-              <i [class]="PrimeIcons.BOOKMARK"></i>
-            </ng-template>
-          </p-tag>
+    Tags: <app-fanfics-world-tag
+            *ngFor="let tag of fanfic.tags; let isOdd = odd"
+            [value]="tag.name"
+            [color]="isOdd ? 'yellow' : ''"
+            [textColor]="isOdd ? 'black' : ''"
+            icon="bookmark">
+          </app-fanfics-world-tag>
     <span *ngIf="fanfic.tags.length === 0" style="color: red">
       <i class="pi pi-times" style="color: red"></i> No tags specified!
     </span>
   </div>
   <div class="data-item data-item-bold">
-    Direction: {{fanfic.direction}}
+    Direction: <app-fanfics-world-tag
+               [value]="fanfic.direction"
+               [color]="fanficDirectionTagColor[fanfic.direction]">
+               </app-fanfics-world-tag>
   </div>
   <div class="data-item data-item-bold">
-    Origin: {{fanfic.origin}}
+    Origin: <app-fanfics-world-tag
+              [value]="fanfic.origin"
+              [icon]="fanficOriginTagIcon[fanfic.origin]"
+              severity="info">
+            </app-fanfics-world-tag>
   </div>
   <div class="data-item data-item-bold">
-    Rating: {{fanfic.rating}}
+    Rating: <app-fanfics-world-tag
+              [value]="fanfic.rating"
+              [color]="fanficRatingTagColor[fanfic.rating]">
+            </app-fanfics-world-tag>
   </div>
   <div class="data-item data-item-bold">
-    Status: {{fanfic.status}}
+    Status: <app-fanfics-world-tag
+              [value]="fanfic.status"
+              [color]="fanficStatusTagColor[fanfic.status]"
+              [icon]="fanficStatusTagIcon[fanfic.status]">
+            </app-fanfics-world-tag>
   </div>
   <div class="data-item">
     Created: {{fanfic.createdDate | date:'MMMM d y h:mm a'}}

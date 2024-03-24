@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FanficsService} from "../../services/fanfics/fanfics.service";
 import {BehaviorSubject} from "rxjs";
 import {SimpleFanficDto} from "../../dto/simpleFanficDto";
-import {HttpErrorResponse} from "@angular/common/http";
 import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
 import {PaginatorState} from "primeng/paginator";
 import {MessageService} from "primeng/api";
@@ -15,6 +14,7 @@ import {MessageService} from "primeng/api";
 export class FanficsComponent implements OnInit {
   fanfics$: BehaviorSubject<ServicePagedResultDto<SimpleFanficDto[]> | undefined>
     = new BehaviorSubject<ServicePagedResultDto<SimpleFanficDto[]> | undefined>(undefined);
+  isLoading: boolean = false;
 
   constructor(
     private readonly fanficsService: FanficsService,
@@ -22,17 +22,23 @@ export class FanficsComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
+    this.isLoading = true;
     this.fanficsService.getFanficsPage(0, 20)
       .subscribe({
         next: fanfics => this.fanfics$.next(fanfics),
-        error: (err: HttpErrorResponse) => this.messageService.add({
-          severity: 'error',
-          summary: err.error ?? err
-        })
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error on getting fanfics!'
+          });
+          this.fanfics$.next(undefined);
+        },
+        complete: () => this.isLoading = false
       });
   }
 
   pageChangeHandler($event: PaginatorState) {
+    this.isLoading = true;
     this.fanficsService.getFanficsPage($event.page ?? 0, $event.rows ?? 20)
       .subscribe({
         next: fanfics => {
@@ -40,10 +46,14 @@ export class FanficsComponent implements OnInit {
           $event.pageCount = fanfics.pagesCount;
           setTimeout(() => window.scrollTo(0, 0));
         },
-        error: (err: HttpErrorResponse) => this.messageService.add({
-          severity: 'error',
-          summary: err.error ?? err
-        })
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error on getting fanfics!'
+          });
+          this.fanfics$.next(undefined);
+        },
+        complete: () => this.isLoading = false
       });
   }
 }

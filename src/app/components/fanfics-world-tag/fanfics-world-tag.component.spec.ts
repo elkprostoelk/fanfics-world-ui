@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthorTagComponent } from './author-tag.component';
+import { FanficsWorldTagComponent } from './fanfics-world-tag.component';
 
-describe('AuthorTagComponent', () => {
-  let component: AuthorTagComponent;
-  let fixture: ComponentFixture<AuthorTagComponent>;
+describe('FanficsWorldTagComponent', () => {
+  let component: FanficsWorldTagComponent;
+  let fixture: ComponentFixture<FanficsWorldTagComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthorTagComponent]
+      imports: [FanficsWorldTagComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AuthorTagComponent);
+    fixture = TestBed.createComponent(FanficsWorldTagComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,8 @@
+<p-tag
+  [value]="value"
+  [severity]="severity"
+  [style]="{'margin': '0 .25rem', 'background-color': color, 'color': textColor}">
+  <ng-template pTemplate="icon" *ngIf="icon">
+    <i class="pi pi-{{icon}}"></i>
+  </ng-template>
+</p-tag>
