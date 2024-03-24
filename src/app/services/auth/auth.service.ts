@@ -24,12 +24,22 @@ export class AuthService {
   }
 
   loginUser(login: string, password: string): Observable<JwtDto> {
-    return this.httpClient.post<JwtDto>(environment.apiPath + this.authRoute + 'login', { login, password })
+    return this.httpClient.post<JwtDto>(`${environment.apiPath}${this.authRoute}login`, { login, password })
       .pipe(map(response => {
         localStorage.setItem('jwt', response.jwt);
         this.loggedUserSubject.next(this.parseJwt()!);
         return response;
       }));
+  }
+
+  registerUser(registeredUserData: {
+    userName: string,
+    password: string,
+    email: string,
+    dateOfBirth: string,
+    role: string
+  }): Observable<any> {
+    return this.httpClient.post<any>(`${environment.apiPath}${this.authRoute}register`, registeredUserData);
   }
 
   logoutUser() {

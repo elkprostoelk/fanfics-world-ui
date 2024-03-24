@@ -1,0 +1,28 @@
+<div class="register-form-wrapper">
+  <form class="register-form" [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
+    <img class="main-img" style="width: 20%" src="assets/img/cite-main-icon.jpg" alt="Fanfics World icon">
+    <h1>Please specify a new user's data:</h1>
+
+    <div class="fields">
+      <div class="text-field-wrapper">
+        <label class="field-label" for="userName">Username:</label>
+        <input pInputText type="text" id="userName" placeholder="Enter username" formControlName="userName" [style]="inputStyles" />
+      </div>
+      <div class="text-field-wrapper">
+        <label class="field-label" for="email">Email:</label>
+        <input pInputText type="email" id="email" placeholder="Enter email" formControlName="email" [style]="inputStyles" />
+      </div>
+      <div class="text-field-wrapper">
+        <label class="field-label" for="password">Password:</label>
+        <p-password [toggleMask]="true" placeholder="Enter password" formControlName="password" id="password" [style]="inputStyles"></p-password>
+      </div>
+      <div class="text-field-wrapper">
+        <label class="field-label" for="birthDate">Date of birth:</label>
+        <p-calendar [maxDate]="maxDate" placeholder="Enter date of birth" formControlName="dateOfBirth" dateFormat="dd M yy" id="birthDate" [style]="inputStyles"></p-calendar>
+      </div>
+    </div>
+
+    <button pButton class="register-button" type="submit" [disabled]="registerForm.invalid">Sign up</button>
+    <div>Already have an account? <a [routerLink]="['/login']">Sign in!</a></div>
+  </form>
+</div>

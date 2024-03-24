@@ -14,5 +14,6 @@
 
     <button pButton class="login-button" type="submit" [disabled]="loginForm.invalid">Sign in</button>
     <p class="text-muted" style="margin: 1rem">&copy; 2022–{{date.getFullYear()}}</p>
+    <div>Don`t have an account yet? <a [routerLink]="['/register']">Sign up!</a></div>
   </form>
 </div>
