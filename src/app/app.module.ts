@@ -26,6 +26,9 @@ import {AutoCompleteModule} from "primeng/autocomplete";
 import {ButtonModule} from "primeng/button";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {FanficsWorldTagComponent} from "./components/fanfics-world-tag/fanfics-world-tag.component";
+import {
+  FanficsSearchFiltersComponent
+} from "./components/fanfics/fanfics-search-filters/fanfics-search-filters.component";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -65,7 +68,8 @@ export function tokenGetter() {
     AutoCompleteModule,
     ButtonModule,
     ProgressSpinnerModule,
-    FanficsWorldTagComponent
+    FanficsWorldTagComponent,
+    FanficsSearchFiltersComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -5,12 +5,14 @@ import { SimpleFanficDto } from "../../dto/simpleFanficDto";
 import {ServicePagedResultDto} from "../../dto/servicePagedResultDto";
 import {FanficDto} from "../../dto/fanficDto";
 import {environment} from "../../../environments/environment";
+import {SearchFanficsDto} from "../../dto/searchFanficsDto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FanficsService {
   private readonly fanficsRoute: string = `${environment.apiPath}fanfic`;
+  private readonly fanficsv2Route: string = `${environment.apiPath}v2/fanfic`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -20,13 +22,8 @@ export class FanficsService {
     return this.httpClient.get<FanficDto>(`${this.fanficsRoute}/${id}`);
   }
 
-  getFanficsPage(page: number, itemsPerPage: number): Observable<ServicePagedResultDto<SimpleFanficDto[]>> {
-    return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto[]>>(`${this.fanficsRoute}`, {
-      params: {
-        'page': page + 1,
-        'itemsPerPage': itemsPerPage
-      }
-    });
+  getFanficsPage(searchParams: SearchFanficsDto, page: number, itemsPerPage: number): Observable<ServicePagedResultDto<SimpleFanficDto[]>> {
+    return this.httpClient.get<ServicePagedResultDto<SimpleFanficDto[]>>(`${this.fanficsv2Route}${this.buildQuery(searchParams, page + 1, itemsPerPage)}`);
   }
 
   createFanfic(value: any): Observable<any> {
@@ -42,5 +39,40 @@ export class FanficsService {
         fandomIds: value.fandomIds.map((f: { id: number; }) => f.id),
         tagIds: value.tagIds.map((t: { id: number; }) => t.id)
       });
+  }
+
+  private buildQuery(searchParams: SearchFanficsDto, page: number, itemsPerPage: number): string {
+    let result = '?';
+    if (searchParams) {
+      if (searchParams.searchByTitle) {
+        result = result.concat(`&searchByTitle=${searchParams.searchByTitle}`);
+      }
+      if (searchParams.fandomIds && searchParams.fandomIds.length > 0) {
+        result = result.concat('&fandomIds=', searchParams.fandomIds.join(',&fandomIds='));
+      }
+      if (searchParams.tagIds && searchParams.tagIds.length > 0) {
+        result = result.concat('&tagIds=', searchParams.tagIds.join(',&fandomIds='));
+      }
+      if (searchParams.directions) {
+        result = result.concat('&directions=', searchParams.directions);
+      }
+      if (searchParams.origins) {
+        result = result.concat('&origins=', searchParams.origins);
+      }
+      if (searchParams.statuses) {
+        result = result.concat('&statuses=', searchParams.statuses);
+      }
+      if (searchParams.ratings) {
+        result = result.concat('&ratings=', searchParams.ratings);
+      }
+      if (searchParams.sortBy) {
+        result = result.concat('&sortBy=', searchParams.sortBy);
+      }
+      if (searchParams.sortOrder) {
+        result = result.concat('&sortOrder=', searchParams.sortOrder);
+      }
+    }
+
+    return result.concat(`&page=${page}&itemsPerPage=${itemsPerPage}`);
   }
 }

@@ -1,0 +1,185 @@
+<p-panel styleClass="panel" [toggleable]="true" [collapsed]="collapsed">
+  <ng-template pTemplate="header">
+    <h1>Fanfics search</h1>
+  </ng-template>
+  <div class="search-filters-panel">
+    <form class="filters" [formGroup]="searchFanficsForm" (submit)="searchFanfics()" (reset)="resetFilters()">
+      <div class="filter">
+        <label>Search by title:</label>
+        <span class="p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input pInputText placeholder="Enter any text to find in titles" formControlName="searchByTitle" />
+      </span>
+      </div>
+      <div class="filter">
+        <label>Fandoms:</label>
+        <p-autoComplete
+          id="typeahead-fandom-search"
+          formControlName="fandoms"
+          optionLabel="title"
+          placeholder="Search for fandoms"
+          [suggestions]="fandoms"
+          (completeMethod)="filterFandoms($event)"
+          [multiple]="true">
+        </p-autoComplete>
+      </div>
+      <div class="filter">
+        <label>Tags:</label>
+        <p-autoComplete
+          id="typeahead-tag-search"
+          formControlName="tags"
+          optionLabel="name"
+          placeholder="Search for tags"
+          [suggestions]="tags"
+          (completeMethod)="filterTags($event)"
+          [multiple]="true">
+        </p-autoComplete>
+      </div>
+      <div class="filter filter-checkbox">
+        <label>Origin:</label>
+        <div class="checkboxes" formGroupName="origins">
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Original text"
+            formControlName="OriginalText">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Translation"
+            formControlName="Translation">
+          </p-checkbox>
+        </div>
+      </div>
+      <div class="filter filter-checkbox">
+        <label>Status:</label>
+        <div class="checkboxes" formGroupName="statuses">
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="In progress"
+            formControlName="InProgress">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Finished"
+            formControlName="Finished">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Frozen"
+            formControlName="Frozen">
+          </p-checkbox>
+        </div>
+      </div>
+      <div class="filter filter-checkbox">
+        <label>Direction:</label>
+        <div class="checkboxes" formGroupName="directions">
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Gen"
+            formControlName="Gen">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Het"
+            formControlName="Het">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Slash"
+            formControlName="Slash">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Femslash"
+            formControlName="Femslash">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Mixed"
+            formControlName="Mixed">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Article"
+            formControlName="Article">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="Other"
+            formControlName="Other">
+          </p-checkbox>
+        </div>
+      </div>
+      <div class="filter filter-checkbox">
+        <label>Rating:</label>
+        <div class="checkboxes" formGroupName="ratings">
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="G"
+            formControlName="G">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="PG-13"
+            formControlName="PG-13">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="R"
+            formControlName="R">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="NC-17"
+            formControlName="NC-17">
+          </p-checkbox>
+          <p-checkbox
+            styleClass="checkbox"
+            [binary]="true"
+            label="NC-21"
+            formControlName="NC-21">
+          </p-checkbox>
+        </div>
+      </div>
+      <div class="filter">
+        <label>Sort by:</label>
+        <div class="sorting">
+          <p-dropdown
+            styleClass="sort-dropdown"
+            formControlName="sortBy"
+            [options]="sortByOptions"
+            optionValue="key"
+            optionLabel="value"
+            placeholder="Sorting field:">
+          </p-dropdown>
+          <p-dropdown
+            styleClass="sort-dropdown"
+            formControlName="sortOrder"
+            [options]="sortOrderOptions"
+            optionValue="key"
+            optionLabel="value"
+            placeholder="Sorting order:">
+          </p-dropdown>
+        </div>
+      </div>
+      <button pButton class="search-button" type="submit">Search</button>
+      <button pButton class="search-button" type="reset">Reset filters</button>
+    </form>
+  </div>
+</p-panel>
