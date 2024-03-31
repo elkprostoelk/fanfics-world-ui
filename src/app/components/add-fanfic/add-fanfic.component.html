@@ -80,7 +80,7 @@
   </div>
   <div class="form-input-item">
     <label for="text">Fanfic text<span class="form-required-mark">*</span>:</label>
-    <textarea pInputTextarea id="text" placeholder="Enter text here" formControlName="text"></textarea>
+    <p-editor id="text" placeholder="Enter text here" formControlName="text"></p-editor>
   </div>
   <button pButton type="submit" [loading]="addingInProgress" [disabled]="addFanficForm.invalid">Add new fanfic</button>
 </form>

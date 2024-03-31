@@ -29,6 +29,7 @@ import {FanficsWorldTagComponent} from "./components/fanfics-world-tag/fanfics-w
 import {
   FanficsSearchFiltersComponent
 } from "./components/fanfics/fanfics-search-filters/fanfics-search-filters.component";
+import {EditorModule} from "primeng/editor";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -44,33 +45,34 @@ export function tokenGetter() {
     BackButtonComponent,
     FanficPageComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter
-      }
-    }),
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-    FanficItemComponent,
-    DropdownModule,
-    PaginatorModule,
-    ScrollTopModule,
-    ToastModule,
-    InputTextModule,
-    InputTextareaModule,
-    AutoCompleteModule,
-    ButtonModule,
-    ProgressSpinnerModule,
-    FanficsWorldTagComponent,
-    FanficsSearchFiltersComponent
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter
+            }
+        }),
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        FanficItemComponent,
+        DropdownModule,
+        PaginatorModule,
+        ScrollTopModule,
+        ToastModule,
+        InputTextModule,
+        InputTextareaModule,
+        AutoCompleteModule,
+        ButtonModule,
+        ProgressSpinnerModule,
+        FanficsWorldTagComponent,
+        FanficsSearchFiltersComponent,
+        EditorModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     MessageService
