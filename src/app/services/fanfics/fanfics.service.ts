@@ -75,4 +75,23 @@ export class FanficsService {
 
     return result.concat(`&page=${page}&itemsPerPage=${itemsPerPage}`);
   }
+
+  editFanfic(id: number, value: any): Observable<any> {
+    return this.httpClient.put(`${this.fanficsRoute}`, {
+      id: id,
+      title: value.title,
+      annotation: value.annotation,
+      text: value.text,
+      origin: Number(value.origin),
+      rating: Number(value.rating),
+      direction: Number(value.direction),
+      coauthorIds: value.coauthorIds.map((a: { id: string; }) => a.id),
+      fandomIds: value.fandomIds.map((f: { id: number; }) => f.id),
+      tagIds: value.tagIds.map((t: { id: number; }) => t.id)
+    });
+  }
+
+  getFanficInternal(id: number): Observable<FanficDto> {
+    return this.httpClient.get<FanficDto>(`${environment.apiPath}internal/fanfic/${id}`);
+  }
 }

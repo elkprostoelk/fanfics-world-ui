@@ -30,6 +30,7 @@ import {
   FanficsSearchFiltersComponent
 } from "./components/fanfics/fanfics-search-filters/fanfics-search-filters.component";
 import {EditorModule} from "primeng/editor";
+import {EditFanficComponent} from "./components/edit-fanfic/edit-fanfic.component";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -43,39 +44,43 @@ export function tokenGetter() {
     NotFoundComponent,
     AddFanficComponent,
     BackButtonComponent,
-    FanficPageComponent
+    FanficPageComponent,
+    EditFanficComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        AppRoutingModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter
-            }
-        }),
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        RouterModule,
-        FanficItemComponent,
-        DropdownModule,
-        PaginatorModule,
-        ScrollTopModule,
-        ToastModule,
-        InputTextModule,
-        InputTextareaModule,
-        AutoCompleteModule,
-        ButtonModule,
-        ProgressSpinnerModule,
-        FanficsWorldTagComponent,
-        FanficsSearchFiltersComponent,
-        EditorModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    FanficItemComponent,
+    DropdownModule,
+    PaginatorModule,
+    ScrollTopModule,
+    ToastModule,
+    InputTextModule,
+    InputTextareaModule,
+    AutoCompleteModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+    EditorModule,
+    FanficsWorldTagComponent,
+    FanficsSearchFiltersComponent
+  ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     MessageService
+  ],
+  exports: [
+    BackButtonComponent
   ],
   bootstrap: [AppComponent]
 })

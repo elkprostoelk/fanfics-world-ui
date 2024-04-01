@@ -1,0 +1,88 @@
+<app-back-button></app-back-button>
+<form class="form-edit-fanfic" [formGroup]="editFanficForm" (submit)="editFanfic()">
+    <h1>Edit fanfic</h1>
+    <input type="hidden" formControlName="id" />
+    <input type="hidden" formControlName="authorId" />
+    <div class="form-input-item">
+        <label for="title">Fanfic title<span class="form-required-mark">*</span> (up to 30 symbols):</label>
+        <input pInputText type="text" id="title" placeholder="Enter title here" maxlength="30" formControlName="title">
+    </div>
+    <div class="form-input-item">
+        <label for="annotation">Fanfic annotation (up to 100 symbols):</label>
+        <textarea id="annotation" pInputTextarea placeholder="Enter annotation here" maxlength="100" formControlName="annotation"></textarea>
+    </div>
+    <div class="form-input-item">
+        <label for="origin">Fanfic origin<span class="form-required-mark">*</span> :</label>
+        <p-dropdown
+                id="origin"
+                [options]="fanficOrigins"
+                optionValue="id"
+                optionLabel="description"
+                placeholder="Select a fanfic origin"
+                formControlName="origin">
+        </p-dropdown>
+    </div>
+    <div class="form-input-item">
+        <label for="rating">Fanfic rating<span class="form-required-mark">*</span> :</label>
+        <p-dropdown
+                id="rating"
+                [options]="fanficRatings"
+                optionValue="id"
+                optionLabel="description"
+                placeholder="Select a fanfic rating"
+                formControlName="rating">
+        </p-dropdown>
+    </div>
+    <div class="form-input-item">
+        <label for="direction">Fanfic direction<span class="form-required-mark">*</span> :</label>
+        <p-dropdown
+                id="direction"
+                [options]="fanficDirections"
+                optionValue="id"
+                optionLabel="description"
+                placeholder="Select a fanfic direction"
+                formControlName="direction">
+        </p-dropdown>
+    </div>
+    <div class="form-input-item">
+        <label for="typeahead-coauthors-search">Coauthors:</label>
+        <p-autoComplete
+                id="typeahead-coauthors-search"
+                formControlName="coauthorIds"
+                optionLabel="userName"
+                placeholder="Search for coauthors"
+                [suggestions]="coauthors"
+                (completeMethod)="filterCoauthors($event)"
+                [multiple]="true">
+        </p-autoComplete>
+    </div>
+    <div class="form-input-item">
+        <label for="typeahead-fandom-search">Fandoms<span class="form-required-mark">*</span>:</label>
+        <p-autoComplete
+                id="typeahead-fandom-search"
+                formControlName="fandomIds"
+                optionLabel="title"
+                placeholder="Search for fandoms"
+                [suggestions]="fandoms"
+                (completeMethod)="filterFandoms($event)"
+                [multiple]="true">
+        </p-autoComplete>
+    </div>
+    <div class="form-input-item">
+        <label for="typeahead-tag-search">Tags:</label>
+        <p-autoComplete
+                id="typeahead-tag-search"
+                formControlName="tagIds"
+                optionLabel="name"
+                placeholder="Search for tags"
+                [suggestions]="tags"
+                (completeMethod)="filterTags($event)"
+                [multiple]="true">
+        </p-autoComplete>
+    </div>
+    <div class="form-input-item">
+        <label for="text">Fanfic text<span class="form-required-mark">*</span>:</label>
+        <p-editor id="text" placeholder="Enter text here" formControlName="text"></p-editor>
+    </div>
+    <button pButton type="submit" [loading]="editingInProgress" [disabled]="editFanficForm.invalid">Edit fanfic</button>
+</form>

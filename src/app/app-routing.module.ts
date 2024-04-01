@@ -7,6 +7,7 @@ import {AddFanficComponent} from "./components/add-fanfic/add-fanfic.component";
 import {AuthGuardService} from "./services/auth-guard/auth-guard.service";
 import {FanficPageComponent} from "./components/fanfic-page/fanfic-page.component";
 import {RegisterComponent} from "./components/register/register.component";
+import {EditFanficComponent} from "./components/edit-fanfic/edit-fanfic.component";
 
 const routes: Routes = [
   { component: LoginComponent, path: 'login' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { component: FanficsComponent, path: '' },
   { path: 'fanfics',   redirectTo: '' },
   { component: AddFanficComponent, path: 'add-fanfic', canActivate: [() => inject(AuthGuardService).canActivate()] },
+  { component: EditFanficComponent, path: 'edit-fanfic/:id', canActivate: [() => inject(AuthGuardService).canActivate()] },
   { component: FanficPageComponent, path: 'fanfic/:id' },
   { component: NotFoundComponent, path: '**' }
 ];

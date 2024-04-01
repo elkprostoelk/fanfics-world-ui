@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FanficDto} from "../../dto/fanficDto";
 import {FanficsService} from "../../services/fanfics/fanfics.service";
 import {ActivatedRoute} from "@angular/router";
-import {map, mergeMap} from "rxjs";
+import {map, mergeMap, Observable} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "primeng/api";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-fanfic-page',
@@ -46,6 +47,7 @@ export class FanficPageComponent implements OnInit {
 
   constructor(
     private readonly fanficService: FanficsService,
+    private readonly authService: AuthService,
     private readonly messageService: MessageService,
     private route: ActivatedRoute) { }
 
@@ -55,14 +57,15 @@ export class FanficPageComponent implements OnInit {
         mergeMap(fanficId => this.fanficService.getFanfic(fanficId)))
       .subscribe({
         next: fanficDto => this.fanfic = fanficDto,
-        error: (err: HttpErrorResponse) => this.messageService.add({
+        error: () => this.messageService.add({
           severity: 'error',
-          summary: err.message ?? err
+          summary: 'Error on getting fanfic!'
         })
       });
   }
 
-  getCoauthorsNames(): string {
-    return this.fanfic?.coauthors.map(arr => arr.userName).join(', ') ?? '';
+  get isAuthor(): Observable<boolean> {
+    return this.authService.loggedInUser
+      .pipe(map(user => user?.id === this.fanfic?.author.id));
   }
 }

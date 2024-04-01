@@ -1,7 +1,7 @@
 <div class="fanfic-page" *ngIf="fanfic">
   <div class="fanfic-page-header">
     <h1>{{fanfic.title}}</h1>
-    <h2>Views: {{fanfic.views}}</h2>
+    <h2><a [routerLink]="['/edit-fanfic', fanfic.id]" *ngIf="(isAuthor | async)">Edit</a></h2>
   </div>
 
   <hr />
