@@ -19,7 +19,7 @@ import {DropdownModule} from "primeng/dropdown";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ScrollTopModule} from "primeng/scrolltop";
 import {ToastModule} from "primeng/toast";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {AutoCompleteModule} from "primeng/autocomplete";
@@ -31,6 +31,8 @@ import {
 } from "./components/fanfics/fanfics-search-filters/fanfics-search-filters.component";
 import {EditorModule} from "primeng/editor";
 import {EditFanficComponent} from "./components/edit-fanfic/edit-fanfic.component";
+import {TooltipModule} from "primeng/tooltip";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -73,11 +75,14 @@ export function tokenGetter() {
     ProgressSpinnerModule,
     EditorModule,
     FanficsWorldTagComponent,
-    FanficsSearchFiltersComponent
+    FanficsSearchFiltersComponent,
+    TooltipModule,
+    ConfirmDialogModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    MessageService
+    MessageService,
+    ConfirmationService
   ],
   exports: [
     BackButtonComponent

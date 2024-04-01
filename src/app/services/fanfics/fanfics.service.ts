@@ -94,4 +94,8 @@ export class FanficsService {
   getFanficInternal(id: number): Observable<FanficDto> {
     return this.httpClient.get<FanficDto>(`${environment.apiPath}internal/fanfic/${id}`);
   }
+
+  deleteFanfic(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.fanficsRoute}/${id}`);
+  }
 }

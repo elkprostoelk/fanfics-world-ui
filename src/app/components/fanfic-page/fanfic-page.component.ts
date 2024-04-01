@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FanficDto} from "../../dto/fanficDto";
 import {FanficsService} from "../../services/fanfics/fanfics.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {map, mergeMap, Observable} from "rxjs";
-import {HttpErrorResponse} from "@angular/common/http";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
@@ -49,7 +48,9 @@ export class FanficPageComponent implements OnInit {
     private readonly fanficService: FanficsService,
     private readonly authService: AuthService,
     private readonly messageService: MessageService,
-    private route: ActivatedRoute) { }
+    private readonly confirmationService: ConfirmationService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -67,5 +68,33 @@ export class FanficPageComponent implements OnInit {
   get isAuthor(): Observable<boolean> {
     return this.authService.loggedInUser
       .pipe(map(user => user?.id === this.fanfic?.author.id));
+  }
+
+  deleteFanfic(id: number) {
+    this.fanficService.deleteFanfic(id)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            summary: 'Fanfic has been deleted!',
+            severity: 'success'
+          });
+          this.router.navigateByUrl('/');
+        },
+        error: () => this.messageService.add({
+          summary: 'An error while deleting the fanfic!',
+          severity: 'error'
+        })
+      });
+  }
+
+  onDeleteClick() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this fanfic?',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectButtonStyleClass: 'p-button-text',
+      header: 'Confirm deletion',
+      icon: 'pi pi-trash',
+      accept: () => this.deleteFanfic(this.fanfic?.id ?? 0)
+    });
   }
 }
