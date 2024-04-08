@@ -29,3 +29,68 @@
 :host ::ng-deep p-button {
   margin: 0 .5rem;
 }
+
+.comments-section {
+  .add-comment {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    margin: 1rem 0;
+  }
+
+  button {
+    width: 10rem;
+    margin-top: .5rem;
+  }
+
+  .comments {
+    margin: 2rem 0;
+
+    .comment {
+      margin: .5rem 0;
+      border: 2px solid royalblue;
+      border-radius: 5px;
+      padding: 1rem;
+
+      .comment-author {
+        h4 {
+          margin: 0;
+        }
+
+        border-bottom: 2px solid royalblue;
+        padding: 0 0 .5rem 0;
+      }
+
+      .created-date {
+        padding: .5rem 0;
+        font-style: italic;
+      }
+
+      .comment-text {
+        padding-top: .5rem;
+      }
+
+      .comment-buttons {
+        margin-top: 1rem;
+
+        button, button:disabled {
+          border: none;
+          background: none;
+          width: auto;
+          color: black;
+        }
+
+        button:disabled:hover {
+          cursor: default;
+        }
+
+        button:hover {
+          cursor: pointer;
+          color: royalblue;
+        }
+      }
+    }
+  }
+}

@@ -98,5 +98,29 @@
     </div>
 
     <div class="fanfic-text" [innerHTML]="fanfic.text"></div>
+
+    <div class="comments-section">
+      <h3>Comments</h3>
+      <form class="add-comment" [formGroup]="sendCommentForm" (submit)="sendComment()" *ngIf="authService.isAuthenticated">
+        <label for="commentTextarea">Enter your comment here:</label>
+        <textarea id="commentTextarea" pInputTextarea formControlName="comment"></textarea>
+        <button pButton type="submit" [disabled]="this.sendCommentForm.invalid">Send comment</button>
+      </form>
+      <div class="comments">
+        <div class="comment" *ngFor="let comment of comments">
+          <div class="comment-author"><h4>{{comment.author.userName}}</h4></div>
+          <div class="created-date">Added: {{comment.createdDate | date: 'medium'}}</div>
+          <div class="comment-text">{{comment.text}}</div>
+          <div class="comment-buttons">
+            <button type="button" [disabled]="!authService.isAuthenticated" (click)="onCommentLikeClick(comment.id, comment.currentUserReaction)">
+              <i class="pi {{commentLikeStyleClass[comment.currentUserReaction === true ? 'active' : 'inactive']}}"></i>
+            </button> {{comment.likesCount}}
+            <button type="button" [disabled]="!authService.isAuthenticated" (click)="onCommentDislikeClick(comment.id, comment.currentUserReaction)">
+              <i class="pi {{commentDislikeStyleClass[comment.currentUserReaction === false ? 'active' : 'inactive']}}"></i>
+            </button> {{comment.dislikesCount}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
