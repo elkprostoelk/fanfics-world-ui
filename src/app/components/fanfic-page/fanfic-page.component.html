@@ -7,17 +7,22 @@
         pTooltip="Edit fanfic"
         [raised]="true"
         [routerLink]="['/edit-fanfic', fanfic.id]"
-        *ngIf="(isAuthor | async)">
+        *ngIf="(isFanficAuthor | async)">
       </p-button>
       <p-button
         icon="pi pi-trash"
         pTooltip="Delete fanfic"
         severity="danger"
         [raised]="true"
-        (onClick)="onDeleteClick()"
-        *ngIf="(isAuthor | async)">
+        (onClick)="onDeleteFanficClick()"
+        *ngIf="(isFanficAuthor | async)">
       </p-button>
-      <p-confirmDialog></p-confirmDialog>
+      <p-confirmDialog
+        icon="pi pi-trash"
+        acceptIcon="pi pi-trash"
+        acceptButtonStyleClass="p-button-danger"
+        rejectButtonStyleClass="p-button-text"
+        header="Confirm deletion"></p-confirmDialog>
     </h2>
   </div>
 
@@ -108,7 +113,23 @@
       </form>
       <div class="comments">
         <div class="comment" *ngFor="let comment of comments">
-          <div class="comment-author"><h4>{{comment.author.userName}}</h4></div>
+          <div class="comment-author">
+            <h4>
+              <span>
+                {{comment.author.userName}}
+                <span *ngIf="(isCommentAuthor(comment.author.id) | async)">(You)</span>
+              </span>
+              <button
+                class="comment-delete-button"
+                type="button"
+                pTooltip="Delete comment"
+                tooltipPosition="left"
+                (click)="onDeleteCommentClick(comment.id)"
+                *ngIf="(isCommentAuthor(comment.author.id) | async)">
+                <i class="pi pi-trash"></i>
+              </button>
+            </h4>
+          </div>
           <div class="created-date">Added: {{comment.createdDate | date: 'medium'}}</div>
           <div class="comment-text">{{comment.text}}</div>
           <div class="comment-buttons">

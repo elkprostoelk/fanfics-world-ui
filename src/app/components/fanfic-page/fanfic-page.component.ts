@@ -89,36 +89,27 @@ export class FanficPageComponent implements OnInit {
       })
   }
 
-  get isAuthor(): Observable<boolean> {
+  get isFanficAuthor(): Observable<boolean> {
     return this.authService.loggedInUser
       .pipe(map(user => user?.id === this.fanfic?.author.id));
   }
 
-  deleteFanfic(id: number) {
-    this.fanficService.deleteFanfic(id)
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            summary: 'Fanfic has been deleted!',
-            severity: 'success'
-          });
-          this.router.navigateByUrl('/');
-        },
-        error: () => this.messageService.add({
-          summary: 'An error while deleting the fanfic!',
-          severity: 'error'
-        })
-      });
+  isCommentAuthor(commentAuthorId: string): Observable<boolean> {
+    return this.authService.loggedInUser
+      .pipe(map(user => user?.id === commentAuthorId));
   }
 
-  onDeleteClick() {
+  onDeleteFanficClick() {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this fanfic?',
-      acceptButtonStyleClass: 'p-button-danger',
-      rejectButtonStyleClass: 'p-button-text',
-      header: 'Confirm deletion',
-      icon: 'pi pi-trash',
       accept: () => this.deleteFanfic(this.fanfic?.id ?? 0)
+    });
+  }
+
+  onDeleteCommentClick(id: number) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this comment?',
+      accept: () => this.deleteComment(id)
     });
   }
 
@@ -133,6 +124,7 @@ export class FanficPageComponent implements OnInit {
           summary: 'Comment has been sent successfully!',
         });
         this.sendCommentForm.reset();
+        this.getFanficComments();
       },
       error: (dto: ServiceResultDto) => this.messageService.add({
         severity: 'error',
@@ -149,6 +141,23 @@ export class FanficPageComponent implements OnInit {
   onCommentDislikeClick(commentId: number, currentUserReaction: boolean | null) {
     const newReaction: boolean | null = currentUserReaction === false ? null : false;
     this.setReaction(commentId, newReaction);
+  }
+
+  private deleteComment(id: number) {
+    this.fanficCommentService.deleteComment(id)
+      .subscribe({
+        next: () => {
+          this.getFanficComments();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Comment successfully deleted!'
+          });
+        },
+        error: (dto: ServiceResultDto) => this.messageService.add({
+          severity: 'error',
+          summary: dto.errorMessage ?? 'Cannot delete this comment!'
+        })
+      })
   }
 
   private setReaction(commentId: number, newReaction: boolean | null) {
@@ -169,6 +178,23 @@ export class FanficPageComponent implements OnInit {
         error: () => this.messageService.add({
           severity: 'error',
           summary: 'Error on getting comments!'
+        })
+      });
+  }
+
+  private deleteFanfic(id: number) {
+    this.fanficService.deleteFanfic(id)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            summary: 'Fanfic has been deleted!',
+            severity: 'success'
+          });
+          this.router.navigateByUrl('/');
+        },
+        error: () => this.messageService.add({
+          summary: 'An error while deleting the fanfic!',
+          severity: 'error'
         })
       });
   }

@@ -28,4 +28,8 @@ export class FanficCommentService {
 
     return this.http.post<any>(uri, null);
   }
+
+  deleteComment(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.apiPath}${this.fanficCommentPath}/${id}`);
+  }
 }
