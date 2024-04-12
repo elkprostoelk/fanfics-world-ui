@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  fanficsworld.ui:
+    container_name: fanficsworld-ui
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/app/src
+      - ./angular.json:/app/angular.json
+      - ./tsconfig.app.json:/app/tsconfig.app.json
+      - ./tsconfig.json:/app/tsconfig.json
