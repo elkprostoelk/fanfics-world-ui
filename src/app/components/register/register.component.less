@@ -21,14 +21,23 @@
     .fields {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      width: 100%;
 
       .text-field-wrapper {
         margin: 1rem;
+        padding: 0 2rem 0 0;
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
 
         .field-label {
           font-weight: 700;
           font-size: 1.15rem;
+        }
+
+        .form-field {
+          width: 65%;
         }
       }
     }
@@ -38,7 +47,15 @@
       border: 1px solid rgb(26, 119, 206);
       color: gold;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
     }
   }
+}
+
+:host::ng-deep.p-dropdown-item, :host::ng-deep.p-dropdown-label {
+  text-align: left;
+}
+
+:host::ng-deep.p-password-input {
+  width: 100%;
 }

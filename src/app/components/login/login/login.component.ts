@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import { AuthService } from "../../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -10,7 +10,7 @@ import {MessageService} from "primeng/api";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   date: Date = new Date();
   loginForm: UntypedFormGroup = this.formBuilder.group({
     login: ['', [Validators.required, Validators.maxLength(20)]],
@@ -22,6 +22,12 @@ export class LoginComponent {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly messageService: MessageService) {}
+
+  ngOnInit() {
+    if (this.authService.isAuthenticated) {
+      this.router.navigateByUrl('/');
+    }
+  }
 
   loginUser(value: any) {
     this.authService.loginUser(value.login, value.password)

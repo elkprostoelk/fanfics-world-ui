@@ -11,6 +11,7 @@ import {AuthService} from "../../../services/auth/auth.service";
 import {map, Observable} from "rxjs";
 import {TooltipModule} from "primeng/tooltip";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin-panel-users',
@@ -33,7 +34,8 @@ export class AdminPanelUsersComponent implements OnInit {
     = new ServicePagedResultDto<AdminPanelUserDto[]>([], 0, 1, 1, 5);
   usersTableLoading: boolean = false;
 
-  constructor(private readonly userService: UserService,
+  constructor(private readonly router: Router,
+              private readonly userService: UserService,
               private readonly authService: AuthService,
               private readonly messageService: MessageService,
               private readonly confirmationService: ConfirmationService) {}
@@ -47,9 +49,11 @@ export class AdminPanelUsersComponent implements OnInit {
     this.usersTableLoading = true;
     this.userService.getUsersForAdminPage(($event.page ?? 0) + 1 , $event.rows ?? 5)
       .subscribe({
-        next: result => this.users = result,
-        error: this.errorHandler,
-        complete: this.completeHandler
+        next: result => {
+          this.users = result;
+          this.usersTableLoading = false;
+        },
+        error: this.errorHandler
       });
   }
 
@@ -71,12 +75,23 @@ export class AdminPanelUsersComponent implements OnInit {
     });
   }
 
-  private errorHandler = () => this.messageService.add({
-    severity: 'error',
-    summary: 'Failed to get users!'
-  });
+  addNewUserClick() {
+    this.router.navigateByUrl('/register');
+  }
 
-  private completeHandler = () => this.usersTableLoading = false;
+  refreshUsersList() {
+    this.usersTableLoading = true;
+    this.getUsers();
+  }
+
+  private errorHandler = () => {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Failed to get users!'
+    });
+    this.users = new ServicePagedResultDto<AdminPanelUserDto[]>([], 0, 1, 1, 5);
+    this.usersTableLoading = false;
+  };
 
   private getUsers() {
     this.userService.getUsersForAdminPage(1, 5)
@@ -84,9 +99,9 @@ export class AdminPanelUsersComponent implements OnInit {
         next: result => {
           this.users = result;
           setTimeout(() => window.scrollTo(0, 0));
+          this.usersTableLoading = false;
         },
-        error: this.errorHandler,
-        complete: this.completeHandler
+        error: this.errorHandler
       });
   }
 

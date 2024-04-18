@@ -8,6 +8,7 @@ import {PasswordModule} from "primeng/password";
 import {AuthService} from "../../services/auth/auth.service";
 import {Router, RouterLink} from "@angular/router";
 import {MessageService} from "primeng/api";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,8 @@ import {MessageService} from "primeng/api";
     ReactiveFormsModule,
     CalendarModule,
     PasswordModule,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.less'
@@ -29,15 +31,18 @@ export class RegisterComponent {
     userName: ['', Validators.required],
     password: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    dateOfBirth: ['', Validators.required]
+    dateOfBirth: ['', Validators.required],
+    role: ['User', Validators.required]
   });
   readonly inputStyles = {
     'margin': '0 .5rem'
   };
   readonly maxDate: Date = new Date();
+  readonly roles: string[] = ['User', 'Admin'];
+  formFieldStyles: { [key: string]: string } = {'width': '100%'};
   constructor(
     private readonly fb: FormBuilder,
-    private readonly authService: AuthService,
+    protected readonly authService: AuthService,
     private readonly router: Router,
     private readonly messageService: MessageService) {}
 
@@ -53,7 +58,7 @@ export class RegisterComponent {
       password: value.password,
       email: value.email,
       dateOfBirth: value.dateOfBirth.toISOString().slice(0, value.dateOfBirth.toISOString().indexOf('T')),
-      role: 'User'
+      role: value.role
     }).subscribe({
         next: () => {
           this.messageService.add({

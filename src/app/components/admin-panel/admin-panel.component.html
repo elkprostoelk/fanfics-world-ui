@@ -1,8 +1,8 @@
 <div class="admin-panel-wrapper">
   <h1>Welcome to Admin Tools Panel!</h1>
-  <p-tabView>
+  <p-tabView (activeIndexChange)="onActiveTabChange($event)">
     <p-tabPanel header="Users">
-      <app-admin-panel-users></app-admin-panel-users>
+      <app-admin-panel-users #usersTab></app-admin-panel-users>
     </p-tabPanel>
     <p-tabPanel header="Fandoms"></p-tabPanel>
     <p-tabPanel header="Tags"></p-tabPanel>
