@@ -6,6 +6,7 @@
     <div class="user-tools">
       <ng-container *ngIf="userLoggedIn; else notLoggedIn">
         <span class="user">{{(authService.loggedInUser | async)?.userName}}</span>
+        <button class="top-panel-button" type="button" [routerLink]="['/admin-panel']" *ngIf="authService.isInRole('Admin')">Admin Panel</button>
         <button class="top-panel-button" type="button" [routerLink]="['/add-fanfic']">Add fanfic</button>
         <button class="top-panel-button" type="button" (click)="logoutUser()">Logout</button>
       </ng-container>

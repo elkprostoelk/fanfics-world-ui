@@ -53,6 +53,10 @@ export class AuthService {
       this.loggedUserSubject.getValue() !== undefined;
   }
 
+  isInRole(role: string): boolean {
+    return this.parseJwt()?.role === role ?? false;
+  }
+
   parseJwt(): UserDto | undefined {
     const token = tokenGetter();
     if (token) {

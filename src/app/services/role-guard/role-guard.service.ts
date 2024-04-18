@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import {AuthService} from "../auth/auth.service";
 
 @Injectable({
@@ -12,8 +12,7 @@ export class RoleGuardService  {
     private readonly router: Router
     ) { }
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const expectedRole: string = route.data['expectedRole'];
+  canActivate(expectedRole: string): boolean {
     const user = this.authService.parseJwt();
 
     if (!this.authService.isAuthenticated ||
