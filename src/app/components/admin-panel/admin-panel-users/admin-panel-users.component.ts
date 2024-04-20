@@ -12,6 +12,7 @@ import {map, Observable} from "rxjs";
 import {TooltipModule} from "primeng/tooltip";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {Router} from "@angular/router";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-admin-panel-users',
@@ -24,12 +25,14 @@ import {Router} from "@angular/router";
     ButtonModule,
     NgIf,
     TooltipModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    InputTextModule
   ],
   templateUrl: './admin-panel-users.component.html',
   styleUrl: './admin-panel-users.component.less'
 })
 export class AdminPanelUsersComponent implements OnInit {
+  searchTerm: string | null = null;
   users: ServicePagedResultDto<AdminPanelUserDto[]>
     = new ServicePagedResultDto<AdminPanelUserDto[]>([], 0, 1, 1, 5);
   usersTableLoading: boolean = false;
@@ -41,13 +44,12 @@ export class AdminPanelUsersComponent implements OnInit {
               private readonly confirmationService: ConfirmationService) {}
 
   ngOnInit(): void {
-    this.usersTableLoading = true;
     this.getUsers();
   }
 
   pageChangeHandler($event: PaginatorState) {
     this.usersTableLoading = true;
-    this.userService.getUsersForAdminPage(($event.page ?? 0) + 1 , $event.rows ?? 5)
+    this.userService.getUsersForAdminPage(($event.page ?? 0) + 1 , $event.rows ?? 5, this.searchTerm)
       .subscribe({
         next: result => {
           this.users = result;
@@ -80,7 +82,6 @@ export class AdminPanelUsersComponent implements OnInit {
   }
 
   refreshUsersList() {
-    this.usersTableLoading = true;
     this.getUsers();
   }
 
@@ -94,7 +95,8 @@ export class AdminPanelUsersComponent implements OnInit {
   };
 
   private getUsers() {
-    this.userService.getUsersForAdminPage(1, 5)
+    this.usersTableLoading = true;
+    this.userService.getUsersForAdminPage(1, 5, this.searchTerm)
       .subscribe({
         next: result => {
           this.users = result;
@@ -120,5 +122,22 @@ export class AdminPanelUsersComponent implements OnInit {
           summary: 'Failed to delete a user!'
         }),
       });
+  }
+
+  filterByName() {
+    this.usersTableLoading = true;
+    this.userService.getUsersForAdminPage(1, 5, this.searchTerm)
+      .subscribe({
+        next: result => {
+          this.users = result;
+          this.usersTableLoading = false;
+        },
+        error: this.errorHandler
+      });
+  }
+
+  clearFilter() {
+    this.searchTerm = null;
+    this.getUsers();
   }
 }

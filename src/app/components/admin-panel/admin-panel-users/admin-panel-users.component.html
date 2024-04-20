@@ -14,6 +14,13 @@
     [raised]="true"
     (click)="refreshUsersList()">
   </p-button>
+  <input type="text"
+         pInputText
+         placeholder="ID, name or email"
+         [(ngModel)]="searchTerm"/>
+  <p-button severity="secondary" icon="pi pi-search" (click)="filterByName()"></p-button>
+  <p-button [text]="true" label="Clear" (click)="clearFilter()" [disabled]="!searchTerm"></p-button>
+
 </div>
 <p-table
         [value]="users.pageContent"

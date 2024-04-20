@@ -21,8 +21,12 @@ export class UserService {
       `${environment.apiPath}${this.userRoute}?userName=${userName}`);
   }
 
-  getUsersForAdminPage(page: number, itemsPerPage: number): Observable<ServicePagedResultDto<AdminPanelUserDto[]>> {
-    return this.httpClient.get<ServicePagedResultDto<AdminPanelUserDto[]>>(`${environment.apiPath}${this.userRoute}/admin-page?page=${page}&itemsPerPage=${itemsPerPage}`);
+  getUsersForAdminPage(page: number, itemsPerPage: number, searchTerm: string | null = null): Observable<ServicePagedResultDto<AdminPanelUserDto[]>> {
+    let url: string = `${environment.apiPath}${this.userRoute}/admin-page?page=${page}&itemsPerPage=${itemsPerPage}`;
+    if (searchTerm !== null) {
+      url = `${url}&searchTerm=${searchTerm}`;
+    }
+    return this.httpClient.get<ServicePagedResultDto<AdminPanelUserDto[]>>(url);
   }
 
   deleteUser(id: string): Observable<any> {
