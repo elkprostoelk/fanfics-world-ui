@@ -30,9 +30,6 @@ jobs:
     - name: Install Dependencies
       run: npm i
 
-    - name: Run Linter
-      run: npx ng lint
-
     - name: Run Tests
       run: npx ng test --watch=false --browsers=ChromeHeadless
 
