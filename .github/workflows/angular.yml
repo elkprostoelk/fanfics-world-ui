@@ -31,7 +31,7 @@ jobs:
       run: npm i
 
     - name: Build Project
-      run: npx ng build --prod
+      run: npx ng build --configuration production
 
     - name: Archive Production Artifacts
       uses: actions/upload-artifact@v3
