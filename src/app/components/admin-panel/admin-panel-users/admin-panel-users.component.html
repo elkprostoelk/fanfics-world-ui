@@ -4,7 +4,7 @@
     icon="pi pi-user-plus"
     [text]="true"
     [raised]="true"
-    (click)="addNewUserClick()">
+    (onClick)="addNewUserClick()">
   </p-button>
   <p-button
     label="Refresh users list"
@@ -12,14 +12,14 @@
     [plain]="true"
     [text]="true"
     [raised]="true"
-    (click)="refreshUsersList()">
+    (onClick)="refreshUsersList()">
   </p-button>
   <input type="text"
          pInputText
          placeholder="ID, name or email"
          [(ngModel)]="searchTerm"/>
-  <p-button severity="secondary" icon="pi pi-search" (click)="filterByName()"></p-button>
-  <p-button [text]="true" label="Clear" (click)="clearFilter()" [disabled]="!searchTerm"></p-button>
+  <p-button severity="secondary" icon="pi pi-search" (onClick)="filterByName()"></p-button>
+  <p-button [text]="true" label="Clear" (onClick)="clearFilter()" [disabled]="!searchTerm"></p-button>
 
 </div>
 <p-table
@@ -59,7 +59,7 @@
           icon="pi pi-trash"
           *ngIf="notMe(user.id) | async"
           pTooltip="Delete user"
-          (click)="onDeleteUserClick(user.id)">
+          (onClick)="onDeleteUserClick(user.id)">
         </p-button>
       </td>
     </tr>
