@@ -5,7 +5,10 @@
     </div>
     <div class="user-tools">
       <ng-container *ngIf="userLoggedIn; else notLoggedIn">
-        <span class="user">{{(authService.loggedInUser | async)?.userName}}</span>
+        <span class="user">
+          <i class="pi pi-user"></i>
+          <span class="username">{{(authService.loggedInUser | async)?.userName}}</span>
+        </span>
         <button class="top-panel-button" type="button" [routerLink]="['/admin-panel']" *ngIf="authService.isInRole('Admin')">Admin Panel</button>
         <button class="top-panel-button" type="button" [routerLink]="['/add-fanfic']">Add fanfic</button>
         <button class="top-panel-button" type="button" (click)="logoutUser()">Logout</button>
