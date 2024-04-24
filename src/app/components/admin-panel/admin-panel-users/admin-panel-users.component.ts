@@ -3,7 +3,7 @@ import {TableModule} from "primeng/table";
 import {AdminPanelUserDto} from "../../../dto/adminPanelUserDto";
 import {UserService} from "../../../services/user/user.service";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {AsyncPipe, DatePipe, NgIf} from "@angular/common";
+import {AsyncPipe, DatePipe, NgIf, NgStyle} from "@angular/common";
 import {PaginatorModule, PaginatorState} from "primeng/paginator";
 import {ServicePagedResultDto} from "../../../dto/servicePagedResultDto";
 import {ButtonModule} from "primeng/button";
@@ -26,12 +26,21 @@ import {InputTextModule} from "primeng/inputtext";
     NgIf,
     TooltipModule,
     ConfirmDialogModule,
-    InputTextModule
+    InputTextModule,
+    NgStyle
   ],
   templateUrl: './admin-panel-users.component.html',
   styleUrl: './admin-panel-users.component.less'
 })
 export class AdminPanelUsersComponent implements OnInit {
+  readonly blockUserOptions: {[key: string]: string} = {
+    'icon': 'pi pi-lock',
+    'label': 'Block'
+  };
+  readonly unblockUserOptions: {[key: string]: string} = {
+    'icon': 'pi pi-lock-open',
+    'label': 'Unblock'
+  };
   searchTerm: string | null = null;
   users: ServicePagedResultDto<AdminPanelUserDto[]>
     = new ServicePagedResultDto<AdminPanelUserDto[]>([], 0, 1, 1, 5);
@@ -85,6 +94,36 @@ export class AdminPanelUsersComponent implements OnInit {
     this.getUsers();
   }
 
+  filterByName() {
+    this.usersTableLoading = true;
+    this.userService.getUsersForAdminPage(1, 5, this.searchTerm)
+      .subscribe({
+        next: result => {
+          this.users = result;
+          this.usersTableLoading = false;
+        },
+        error: this.errorHandler
+      });
+  }
+
+  clearFilter() {
+    this.searchTerm = null;
+    this.getUsers();
+  }
+
+  onUserBlockStatusChangeClicked(user: AdminPanelUserDto) {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to ${user.isBlocked ? this.unblockUserOptions['label'].toLowerCase() : this.blockUserOptions['label'].toLowerCase()} this user?`,
+      accept: () => this.changeUserBlockStatus(user.id),
+      header: `Confirm ${user.isBlocked ? this.unblockUserOptions['label'].toLowerCase() : this.blockUserOptions['label'].toLowerCase()}ing this user`,
+      icon: user.isBlocked ? this.unblockUserOptions['icon'] : this.blockUserOptions['icon'],
+      acceptIcon: user.isBlocked ? this.unblockUserOptions['icon'] : this.blockUserOptions['icon'],
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectIcon: 'pi',
+      rejectButtonStyleClass: 'p-button-text'
+    });
+  }
+
   private errorHandler = () => {
     this.messageService.add({
       severity: 'error',
@@ -124,20 +163,16 @@ export class AdminPanelUsersComponent implements OnInit {
       });
   }
 
-  filterByName() {
-    this.usersTableLoading = true;
-    this.userService.getUsersForAdminPage(1, 5, this.searchTerm)
+  private changeUserBlockStatus(id: string) {
+    this.userService.changeBlockStatus(id)
       .subscribe({
-        next: result => {
-          this.users = result;
-          this.usersTableLoading = false;
-        },
-        error: this.errorHandler
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: `Successfully blocked a user ${id}`
+          });
+          this.getUsers();
+        }
       });
-  }
-
-  clearFilter() {
-    this.searchTerm = null;
-    this.getUsers();
   }
 }

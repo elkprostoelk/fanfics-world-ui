@@ -23,19 +23,24 @@
 
 </div>
 <p-table
+        styleClass="p-datatable-gridlines"
+        [resizableColumns]="true"
+        scrollHeight="flex"
+        [scrollable]="true"
         [value]="users.pageContent"
         [showLoader]="true"
         [loading]="usersTableLoading">
   <ng-template pTemplate="header">
     <tr>
-      <th>ID</th>
-      <th>User Name</th>
-      <th>Email</th>
-      <th>Registration Date</th>
-      <th>Date of Birth</th>
-      <th>Fanfics Count</th>
-      <th>Coauthored Fanfics Count</th>
-      <th>Tools</th>
+      <th pResizableColumn>ID</th>
+      <th pResizableColumn>User Name</th>
+      <th pResizableColumn>Email</th>
+      <th pResizableColumn>Registration Date</th>
+      <th pResizableColumn>Date of Birth</th>
+      <th pResizableColumn>Fanfics<br />Count</th>
+      <th pResizableColumn>Coauthored<br />Fanfics</th>
+      <th pResizableColumn>Status</th>
+      <th pResizableColumn>Tools</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-user>
@@ -47,20 +52,33 @@
       <td>{{ user.dateOfBirth | date: 'mediumDate' }}</td>
       <td>{{ user.fanficsCount }}</td>
       <td>{{ user.coauthoredFanficsCount }}</td>
-      <td>
-        <p-button
-          severity="secondary"
-          [text]="true"
+      <td [ngStyle]="{'color': user.isBlocked ? 'red' : 'darkgreen'}">{{ user.isBlocked ? 'Blocked' : 'Available' }}</td>
+      <td class="user-actions">
+        <button
+          class="p-button-secondary p-button-text user-action-button"
           icon="pi pi-pencil"
+          pButton
+          type="button"
           pTooltip="Edit user info">
-        </p-button>
-        <p-button
-          severity="danger"
+        </button>
+        <button
+          class="p-button-warning user-action-button"
+          [icon]="user.isBlocked ? unblockUserOptions['icon'] : blockUserOptions['icon']"
+          pButton
+          type="button"
+          [pTooltip]="(user.isBlocked ? unblockUserOptions['label'] : blockUserOptions['label'])+' user'"
+          *ngIf="notMe(user.id) | async"
+          (click)="onUserBlockStatusChangeClicked(user)">
+        </button>
+        <button
+          class="p-button-danger user-action-button"
           icon="pi pi-trash"
+          pButton
+          type="button"
           *ngIf="notMe(user.id) | async"
           pTooltip="Delete user"
-          (onClick)="onDeleteUserClick(user.id)">
-        </p-button>
+          (click)="onDeleteUserClick(user.id)">
+        </button>
       </td>
     </tr>
   </ng-template>

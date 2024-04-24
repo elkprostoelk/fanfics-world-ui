@@ -5,5 +5,6 @@ export class AdminPanelUserDto {
               public registrationDate: Date,
               public dateOfBirth: Date,
               public fanficsCount: number,
-              public coauthoredFanficsCount: number) {}
+              public coauthoredFanficsCount: number,
+              public isBlocked: boolean) {}
 }

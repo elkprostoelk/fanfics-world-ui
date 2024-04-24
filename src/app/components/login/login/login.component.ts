@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import { AuthService } from "../../../services/auth/auth.service";
 import {Router} from "@angular/router";
-import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -39,9 +38,9 @@ export class LoginComponent implements OnInit {
           });
           this.router.navigateByUrl('/');
         },
-        error: (err: HttpErrorResponse) => this.messageService.add({
+        error: (err) => this.messageService.add({
           severity: 'error',
-          summary: err.message ?? err
+          summary: err.error.errorMessage ?? err.errorMessage ?? err
         })
       });
   }

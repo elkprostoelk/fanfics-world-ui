@@ -32,4 +32,8 @@ export class UserService {
   deleteUser(id: string): Observable<any> {
     return this.httpClient.delete(`${environment.apiPath}${this.userRoute}/${id}`);
   }
+
+  changeBlockStatus(id: string): Observable<any> {
+    return this.httpClient.patch(`${environment.apiPath}${this.userRoute}/block-status/${id}`, null);
+  }
 }

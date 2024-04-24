@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from "rxjs";
+import {BehaviorSubject, Observable, tap} from "rxjs";
 import { JwtDto } from "../../dto/jwtDto";
 import { HttpClient } from "@angular/common/http";
 import { UserDto } from "../../dto/userDto";
@@ -25,10 +25,9 @@ export class AuthService {
 
   loginUser(login: string, password: string): Observable<JwtDto> {
     return this.httpClient.post<JwtDto>(`${environment.apiPath}${this.authRoute}login`, { login, password })
-      .pipe(map(response => {
+      .pipe(tap(response => {
         localStorage.setItem('jwt', response.jwt);
         this.loggedUserSubject.next(this.parseJwt()!);
-        return response;
       }));
   }
 
