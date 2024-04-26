@@ -58,8 +58,11 @@ export class AdminPanelUsersComponent implements OnInit {
 
   pageChangeHandler($event: PaginatorState) {
     this.usersTableLoading = true;
-    this.userService.getUsersForAdminPage(($event.page ?? 0) + 1 , $event.rows ?? 5, this.searchTerm)
-      .subscribe({
+    this.userService.getUsersForAdminPage(
+      ($event.page ?? 0) + 1,
+      $event.rows ?? 5,
+      this.searchTerm
+    ).subscribe({
         next: result => {
           this.users = result;
           this.usersTableLoading = false;

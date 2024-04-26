@@ -4,6 +4,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import {AdminPanelUsersComponent} from "./admin-panel-users/admin-panel-users.component";
 import {NgIf} from "@angular/common";
+import {AdminPanelFandomsComponent} from "./admin-panel-fandoms/admin-panel-fandoms.component";
 
 @Component({
   selector: 'app-admin-panel',
@@ -11,7 +12,8 @@ import {NgIf} from "@angular/common";
   imports: [
     TabViewModule,
     AdminPanelUsersComponent,
-    NgIf
+    NgIf,
+    AdminPanelFandomsComponent
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.less'
@@ -19,6 +21,7 @@ import {NgIf} from "@angular/common";
 export class AdminPanelComponent implements OnInit {
 
   @ViewChild('usersTab') usersTab?: AdminPanelUsersComponent;
+  @ViewChild('fandomsTab') fandomsTab?: AdminPanelFandomsComponent;
   constructor(readonly authService: AuthService,
               private readonly router: Router) {}
 
@@ -36,6 +39,7 @@ export class AdminPanelComponent implements OnInit {
         this.usersTab?.ngOnInit();
         break;
       case 1:
+        this.fandomsTab?.ngOnInit();
         break;
       case 2:
         break;

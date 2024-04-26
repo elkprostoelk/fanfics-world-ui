@@ -1,0 +1,73 @@
+<div class="fandom-panel-control-buttons">
+  <p-button
+    label="Add new fandom"
+    icon="pi pi-book"
+    [text]="true"
+    [raised]="true"
+    (onClick)="addNewFandomClick()">
+  </p-button>
+  <p-button
+    label="Refresh fandoms list"
+    icon="pi pi-sync"
+    [plain]="true"
+    [text]="true"
+    [raised]="true"
+    (onClick)="refreshFandomsList()">
+  </p-button>
+  <input type="text"
+         pInputText
+         placeholder="Search by title"
+         [(ngModel)]="searchTerm"/>
+  <p-button severity="secondary" icon="pi pi-search" (onClick)="filterByName()"></p-button>
+  <p-button [text]="true" label="Clear" (onClick)="clearFilter()" [disabled]="!searchTerm"></p-button>
+</div>
+<p-table
+  styleClass="p-datatable-gridlines"
+  [resizableColumns]="true"
+  scrollHeight="flex"
+  [scrollable]="true"
+  [value]="fandoms.pageContent"
+  [showLoader]="true"
+  [loading]="fandomsTableLoading">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Fanfics Count</th>
+      <th>Tools</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-fandom>
+    <tr>
+      <td>{{fandom.id}}</td>
+      <td>{{fandom.title}}</td>
+      <td>{{fandom.fanficsCount}}</td>
+      <td>
+        <button
+          class="p-button-secondary p-button-text user-action-button"
+          icon="pi pi-pencil"
+          pButton
+          type="button"
+          pTooltip="Edit fandom info">
+        </button>
+        <button
+          class="p-button-danger user-action-button"
+          icon="pi pi-trash"
+          pButton
+          type="button"
+          pTooltip="Delete fandom"
+          (click)="onDeleteFandomClick(fandom.id)">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-confirmDialog></p-confirmDialog>
+<p-paginator
+  (onPageChange)="pageChangeHandler($event)"
+  [rows]="fandoms.itemsPerPage"
+  [totalRecords]="fandoms.totalItems"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  [showCurrentPageReport]="true"
+>
+</p-paginator>
