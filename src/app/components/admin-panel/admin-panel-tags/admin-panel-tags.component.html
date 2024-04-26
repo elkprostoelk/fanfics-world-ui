@@ -1,0 +1,74 @@
+<div class="tag-panel-control-buttons">
+  <p-button
+    label="Add new tag"
+    icon="pi pi-bookmark"
+    [text]="true"
+    [raised]="true"
+    (onClick)="addNewTagClick()">
+  </p-button>
+  <p-button
+    label="Refresh tags list"
+    icon="pi pi-sync"
+    [plain]="true"
+    [text]="true"
+    [raised]="true"
+    (onClick)="refreshTagsList()">
+  </p-button>
+  <input type="text"
+         pInputText
+         placeholder="Search by title"
+         [(ngModel)]="searchTerm"/>
+  <p-button severity="secondary" icon="pi pi-search" (onClick)="filterByName()"></p-button>
+  <p-button [text]="true" label="Clear" (onClick)="clearFilter()" [disabled]="!searchTerm"></p-button>
+</div>
+<p-table
+  styleClass="p-datatable-gridlines"
+  [resizableColumns]="true"
+  scrollHeight="flex"
+  [scrollable]="true"
+  [value]="tags.pageContent"
+  [showLoader]="true"
+  [loading]="tagsTableLoading">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Fanfics Count</th>
+      <th>Tools</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-tag>
+    <tr>
+      <td>{{tag.id}}</td>
+      <td>{{tag.name}}</td>
+      <td>{{tag.fanficsCount}}</td>
+      <td>
+        <button
+          class="p-button-secondary p-button-text user-action-button"
+          icon="pi pi-pencil"
+          pButton
+          type="button"
+          pTooltip="Edit tag info">
+        </button>
+        <button
+          class="p-button-danger user-action-button"
+          icon="pi pi-trash"
+          pButton
+          type="button"
+          pTooltip="Delete tag"
+          (click)="onDeleteTagClick(tag.id)">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-confirmDialog></p-confirmDialog>
+<p-paginator
+  (onPageChange)="pageChangeHandler($event)"
+  [rows]="tags.itemsPerPage"
+  [totalRecords]="tags.totalItems"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  [showCurrentPageReport]="true"
+>
+</p-paginator>
+<!--<app-add-new-fandom [(dialogVisible)]="addDialogVisible" (onFandomAdded)="onTagAdded()"></app-add-new-fandom>-->

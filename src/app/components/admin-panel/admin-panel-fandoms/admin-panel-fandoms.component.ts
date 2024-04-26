@@ -99,7 +99,7 @@ export class AdminPanelFandomsComponent implements OnInit {
 
   private getFandoms() {
     this.fandomsTableLoading = true;
-    this.fandomService.getFandomsForAdminPage()
+    this.fandomService.getFandomsForAdminPage(1, 5, this.searchTerm)
       .subscribe({
         next: result => {
           this.fandoms = result;
