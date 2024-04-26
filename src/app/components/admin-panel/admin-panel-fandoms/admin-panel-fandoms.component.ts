@@ -10,6 +10,7 @@ import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {AddNewFandomComponent} from "./add-new-fandom/add-new-fandom.component";
 
 @Component({
   selector: 'app-admin-panel-fandoms',
@@ -22,13 +23,14 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     TooltipModule,
     AsyncPipe,
     NgIf,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    AddNewFandomComponent
   ],
   templateUrl: './admin-panel-fandoms.component.html',
   styleUrl: './admin-panel-fandoms.component.less'
 })
 export class AdminPanelFandomsComponent implements OnInit {
-
+  addDialogVisible: boolean = false;
   searchTerm: string | null = null;
   fandoms: ServicePagedResultDto<AdminPanelFandomDto[]>
     = new ServicePagedResultDto<AdminPanelFandomDto[]>([], 0, 1, 1, 5)
@@ -43,7 +45,7 @@ export class AdminPanelFandomsComponent implements OnInit {
   }
 
   addNewFandomClick() {
-
+    this.addDialogVisible = true;
   }
 
   refreshFandomsList() {
@@ -127,5 +129,9 @@ export class AdminPanelFandomsComponent implements OnInit {
           summary: 'Failed to delete a fandom!'
         })
       });
+  }
+
+  onFandomAdded() {
+    this.getFandoms();
   }
 }

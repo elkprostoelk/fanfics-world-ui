@@ -10,26 +10,30 @@ import {AdminPanelFandomDto} from "../../dto/adminPanelFandomDto";
   providedIn: 'root'
 })
 export class FandomService {
-  private readonly fandomPath: string = 'fandom';
+  private readonly fandomPath: string = `${environment.apiPath}fandom`;
 
   constructor(private readonly http: HttpClient) { }
 
   getFandomsByTitle(title: string): Observable<SimpleFandomDto[]> {
     return this.http.get<SimpleFandomDto[]>(
-      `${environment.apiPath}${this.fandomPath}/search?title=${title}`);
+      `${this.fandomPath}/search?title=${title}`);
   }
 
   getFandomsForAdminPage(page: number = 1,
                          itemsPerPage: number = 5,
                          searchTerm: string | null = null): Observable<ServicePagedResultDto<AdminPanelFandomDto[]>> {
-    let uri: string = `${environment.apiPath}${this.fandomPath}?page=${page}&itemsPerPage=${itemsPerPage}`;
+    let uri: string = `${this.fandomPath}?page=${page}&itemsPerPage=${itemsPerPage}`;
     if (searchTerm) {
       uri = `${uri}&searchByName=${searchTerm}`;
     }
     return this.http.get<ServicePagedResultDto<AdminPanelFandomDto[]>>(uri);
   }
 
+  addNewFandom(value: { title: string }): Observable<any> {
+    return this.http.post(this.fandomPath, value);
+  }
+
   deleteFandom(id: number): Observable<any> {
-    return this.http.delete<any>(`${environment.apiPath}${this.fandomPath}/${id}`);
+    return this.http.delete<any>(`${this.fandomPath}/${id}`);
   }
 }

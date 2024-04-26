@@ -1,0 +1,6 @@
+<p-dialog header="Add new fandom" [(visible)]="dialogVisible" [modal]="true" (onHide)="onDialogHide()">
+  <form class="add-fandom-dialog-content" [formGroup]="addNewFandomForm" (submit)="addNewFandom()">
+    <input pInputText formControlName="title" placeholder="Fandom title" />
+    <button pButton type="submit" [disabled]="addNewFandomForm.invalid">Add</button>
+  </form>
+</p-dialog>
