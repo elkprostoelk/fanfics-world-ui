@@ -34,6 +34,7 @@
       <th>ID</th>
       <th>Title</th>
       <th>Fanfics Count</th>
+      <th>Deleted</th>
       <th>Tools</th>
     </tr>
   </ng-template>
@@ -42,6 +43,7 @@
       <td>{{fandom.id}}</td>
       <td>{{fandom.title}}</td>
       <td>{{fandom.fanficsCount}}</td>
+      <td>{{fandom.isDeleted ? 'Yes' : 'No'}}</td>
       <td>
         <button
           class="p-button-secondary p-button-text user-action-button"

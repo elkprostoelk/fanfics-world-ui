@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ServicePagedResultDto} from "../../../dto/servicePagedResultDto";
 import {AdminPanelFandomDto} from "../../../dto/adminPanelFandomDto";
 import {FandomService} from "../../../services/fandom/fandom.service";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule, PaginatorState} from "primeng/paginator";
@@ -35,7 +35,8 @@ export class AdminPanelFandomsComponent implements OnInit {
   fandomsTableLoading: boolean = false;
 
   constructor(private readonly fandomService: FandomService,
-              private readonly messageService: MessageService) {}
+              private readonly messageService: MessageService,
+              private readonly confirmationService: ConfirmationService) {}
 
   ngOnInit() {
     this.getFandoms();
@@ -67,7 +68,16 @@ export class AdminPanelFandomsComponent implements OnInit {
   }
 
   onDeleteFandomClick(id: number) {
-
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete this fandom?`,
+      header: 'Confirm deleting the fandom',
+      icon: 'pi pi-trash',
+      accept: () => this.deleteFandom(id),
+      acceptIcon: 'pi pi-trash',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectIcon: 'pi',
+      rejectButtonStyleClass: 'p-button-text'
+    });
   }
 
   pageChangeHandler($event: PaginatorState) {
@@ -101,4 +111,21 @@ export class AdminPanelFandomsComponent implements OnInit {
     severity: 'error',
     summary: 'Failed to get fandoms!'
   });
+
+  private deleteFandom(id: number) {
+    this.fandomService.deleteFandom(id)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Fandom has successfully been deleted!'
+          });
+          this.getFandoms();
+        },
+        error: () => this.messageService.add({
+          severity: 'error',
+          summary: 'Failed to delete a fandom!'
+        })
+      });
+  }
 }

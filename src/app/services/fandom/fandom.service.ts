@@ -28,4 +28,8 @@ export class FandomService {
     }
     return this.http.get<ServicePagedResultDto<AdminPanelFandomDto[]>>(uri);
   }
+
+  deleteFandom(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.apiPath}${this.fandomPath}/${id}`);
+  }
 }
