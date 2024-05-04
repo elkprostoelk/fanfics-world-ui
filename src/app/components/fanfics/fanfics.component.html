@@ -6,9 +6,15 @@
 
   <div class="fanfics-page">
     <ng-template #displayFanfics>
-      <div class="fanfics">
+      <div class="fanfics" *ngIf="(fanfics$ | async)?.pageContent?.length; else noFanfics">
         <app-fanfic-item [fanfic]="fanfic" *ngFor="let fanfic of (fanfics$ | async)?.pageContent"></app-fanfic-item>
       </div>
+      <ng-template #noFanfics>
+        <div class="no-fanfics-found">
+          <i class="pi pi-file"></i>
+          <span>No Fanfics Found</span>
+        </div>
+      </ng-template>
     </ng-template>
     <div class="pages">
       <p-paginator
