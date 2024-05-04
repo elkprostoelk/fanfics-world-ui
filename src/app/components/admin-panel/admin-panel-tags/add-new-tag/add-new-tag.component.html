@@ -1,0 +1,6 @@
+<p-dialog header="Add new tag" [(visible)]="dialogVisible" [modal]="true" (onHide)="onDialogHide()">
+  <form class="add-tag-dialog-content" [formGroup]="addNewTagForm" (submit)="addNewTag()">
+    <input pInputText formControlName="name" placeholder="Tag name" />
+    <button pButton type="submit" [disabled]="addNewTagForm.invalid">Add</button>
+  </form>
+</p-dialog>

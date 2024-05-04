@@ -26,4 +26,8 @@ export class TagService {
 
     return this.http.get<ServicePagedResultDto<AdminPanelTagDto[]>>(uri);
   }
+
+  addNewTag(value: any): Observable<any> {
+    return this.http.post<any>(this.tagPath, value);
+  }
 }

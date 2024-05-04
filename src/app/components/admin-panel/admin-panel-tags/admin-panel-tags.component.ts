@@ -11,6 +11,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
+import {AddNewTagComponent} from "./add-new-tag/add-new-tag.component";
 
 @Component({
   selector: 'app-admin-panel-tags',
@@ -24,7 +25,8 @@ import {TooltipModule} from "primeng/tooltip";
     ReactiveFormsModule,
     SharedModule,
     TableModule,
-    TooltipModule
+    TooltipModule,
+    AddNewTagComponent
   ],
   templateUrl: './admin-panel-tags.component.html',
   styleUrl: './admin-panel-tags.component.less'
@@ -73,11 +75,22 @@ export class AdminPanelTagsComponent implements OnInit {
   }
 
   pageChangeHandler($event: PaginatorState) {
-
+    this.tagsTableLoading = true;
+    this.tagService.getTagsForAdminPage(
+      this.searchTerm,
+      ($event.page ?? 0) + 1,
+      $event.rows ?? 5
+    ).subscribe({
+      next: result => {
+        this.tags = result;
+        this.tagsTableLoading = false;
+      },
+      error: this.errorHandler
+    });
   }
 
   onTagAdded() {
-
+    this.getTags();
   }
 
   private getTags() {

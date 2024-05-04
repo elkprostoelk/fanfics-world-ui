@@ -94,7 +94,7 @@ export class AdminPanelFandomsComponent implements OnInit {
         this.fandomsTableLoading = false;
       },
       error: this.errorHandler
-    })
+    });
   }
 
   private getFandoms() {
