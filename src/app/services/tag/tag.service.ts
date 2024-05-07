@@ -30,4 +30,8 @@ export class TagService {
   addNewTag(value: any): Observable<any> {
     return this.http.post<any>(this.tagPath, value);
   }
+
+  deleteTag(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.tagPath}/${id}`);
+  }
 }

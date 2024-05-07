@@ -8,7 +8,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule, PaginatorState} from "primeng/paginator";
 import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe, NgIf, NgStyle} from "@angular/common";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {AddNewFandomComponent} from "./add-new-fandom/add-new-fandom.component";
 
@@ -24,7 +24,8 @@ import {AddNewFandomComponent} from "./add-new-fandom/add-new-fandom.component";
     AsyncPipe,
     NgIf,
     ConfirmDialogModule,
-    AddNewFandomComponent
+    AddNewFandomComponent,
+    NgStyle
   ],
   templateUrl: './admin-panel-fandoms.component.html',
   styleUrl: './admin-panel-fandoms.component.less'
@@ -71,6 +72,7 @@ export class AdminPanelFandomsComponent implements OnInit {
 
   onDeleteFandomClick(id: number) {
     this.confirmationService.confirm({
+      key: 'adminPage',
       message: `Are you sure you want to delete this fandom?`,
       header: 'Confirm deleting the fandom',
       icon: 'pi pi-trash',

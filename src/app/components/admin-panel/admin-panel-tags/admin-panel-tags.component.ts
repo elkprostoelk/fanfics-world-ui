@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TagService} from "../../../services/tag/tag.service";
 import {ServicePagedResultDto} from "../../../dto/servicePagedResultDto";
 import {AdminPanelTagDto} from "../../../dto/adminPanelTagDto";
-import {MessageService, SharedModule} from "primeng/api";
+import {ConfirmationService, MessageService, SharedModule} from "primeng/api";
 import {PaginatorModule, PaginatorState} from "primeng/paginator";
 import {AddNewFandomComponent} from "../admin-panel-fandoms/add-new-fandom/add-new-fandom.component";
 import {ButtonModule} from "primeng/button";
@@ -12,6 +12,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
 import {AddNewTagComponent} from "./add-new-tag/add-new-tag.component";
+import {NgStyle} from "@angular/common";
 
 @Component({
   selector: 'app-admin-panel-tags',
@@ -26,7 +27,8 @@ import {AddNewTagComponent} from "./add-new-tag/add-new-tag.component";
     SharedModule,
     TableModule,
     TooltipModule,
-    AddNewTagComponent
+    AddNewTagComponent,
+    NgStyle
   ],
   templateUrl: './admin-panel-tags.component.html',
   styleUrl: './admin-panel-tags.component.less'
@@ -39,7 +41,8 @@ export class AdminPanelTagsComponent implements OnInit {
   tagsTableLoading: boolean = false;
 
   constructor(private readonly tagService: TagService,
-              private readonly messageService: MessageService) {}
+              private readonly messageService: MessageService,
+              private readonly confirmationService: ConfirmationService) {}
 
   ngOnInit() {
     this.getTags();
@@ -71,7 +74,17 @@ export class AdminPanelTagsComponent implements OnInit {
   }
 
   onDeleteTagClick(id: number) {
-
+    this.confirmationService.confirm({
+      key: 'adminPage',
+      message: `Are you sure you want to delete this tag?`,
+      header: 'Confirm deleting the tag',
+      icon: 'pi pi-trash',
+      accept: () => this.deleteTag(id),
+      acceptIcon: 'pi pi-trash',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectIcon: 'pi',
+      rejectButtonStyleClass: 'p-button-text'
+    });
   }
 
   pageChangeHandler($event: PaginatorState) {
@@ -102,6 +115,23 @@ export class AdminPanelTagsComponent implements OnInit {
           this.tagsTableLoading = false;
         },
         error: this.errorHandler
+      });
+  }
+
+  private deleteTag(id: number) {
+    this.tagService.deleteTag(id)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully deleted a tag!'
+          });
+          this.getTags();
+        },
+        error: () => this.messageService.add({
+          severity: 'error',
+          summary: 'Failed to delete a tag!'
+        })
       });
   }
 

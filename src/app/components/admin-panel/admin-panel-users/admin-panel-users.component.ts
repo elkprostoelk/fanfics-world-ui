@@ -78,6 +78,7 @@ export class AdminPanelUsersComponent implements OnInit {
 
   onDeleteUserClick(id: string) {
     this.confirmationService.confirm({
+      key: 'adminPage',
       message: `Are you sure you want to delete a user ${id}?`,
       header: 'Confirm deleting this user',
       icon: 'pi pi-trash',
@@ -116,6 +117,7 @@ export class AdminPanelUsersComponent implements OnInit {
 
   onUserBlockStatusChangeClicked(user: AdminPanelUserDto) {
     this.confirmationService.confirm({
+      key: 'adminPage',
       message: `Are you sure you want to ${user.isBlocked ? this.unblockUserOptions['label'].toLowerCase() : this.blockUserOptions['label'].toLowerCase()} this user?`,
       accept: () => this.changeUserBlockStatus(user.id),
       header: `Confirm ${user.isBlocked ? this.unblockUserOptions['label'].toLowerCase() : this.blockUserOptions['label'].toLowerCase()}ing this user`,

@@ -34,6 +34,7 @@
       <th>ID</th>
       <th>Name</th>
       <th>Fanfics Count</th>
+      <th>Status</th>
       <th>Tools</th>
     </tr>
   </ng-template>
@@ -42,6 +43,7 @@
       <td>{{tag.id}}</td>
       <td>{{tag.name}}</td>
       <td>{{tag.fanficsCount}}</td>
+      <td [ngStyle]="{'color': tag.isDeleted ? 'red' : 'darkgreen', 'font-weight': '600'}">{{tag.isDeleted ? 'Yes' : 'No'}}</td>
       <td>
         <button
           class="p-button-secondary p-button-text user-action-button"
@@ -62,7 +64,6 @@
     </tr>
   </ng-template>
 </p-table>
-<p-confirmDialog></p-confirmDialog>
 <p-paginator
   (onPageChange)="pageChangeHandler($event)"
   [rows]="tags.itemsPerPage"

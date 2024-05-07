@@ -6,6 +6,7 @@ import {AdminPanelUsersComponent} from "./admin-panel-users/admin-panel-users.co
 import {NgIf} from "@angular/common";
 import {AdminPanelFandomsComponent} from "./admin-panel-fandoms/admin-panel-fandoms.component";
 import {AdminPanelTagsComponent} from "./admin-panel-tags/admin-panel-tags.component";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @Component({
   selector: 'app-admin-panel',
@@ -15,7 +16,8 @@ import {AdminPanelTagsComponent} from "./admin-panel-tags/admin-panel-tags.compo
     AdminPanelUsersComponent,
     NgIf,
     AdminPanelFandomsComponent,
-    AdminPanelTagsComponent
+    AdminPanelTagsComponent,
+    ConfirmDialogModule
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.less'

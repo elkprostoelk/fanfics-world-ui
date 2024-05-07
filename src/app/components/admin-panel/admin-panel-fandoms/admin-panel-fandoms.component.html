@@ -43,7 +43,7 @@
       <td>{{fandom.id}}</td>
       <td>{{fandom.title}}</td>
       <td>{{fandom.fanficsCount}}</td>
-      <td>{{fandom.isDeleted ? 'Yes' : 'No'}}</td>
+      <td [ngStyle]="{'color': fandom.isDeleted ? 'red' : 'darkgreen', 'font-weight': '600'}">{{fandom.isDeleted ? 'Yes' : 'No'}}</td>
       <td>
         <button
           class="p-button-secondary p-button-text user-action-button"
@@ -64,7 +64,6 @@
     </tr>
   </ng-template>
 </p-table>
-<p-confirmDialog></p-confirmDialog>
 <p-paginator
   (onPageChange)="pageChangeHandler($event)"
   [rows]="fandoms.itemsPerPage"
