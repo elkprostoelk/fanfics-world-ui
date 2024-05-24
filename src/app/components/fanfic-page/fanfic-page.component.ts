@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {FanficDto} from "../../dto/fanficDto";
 import {FanficsService} from "../../services/fanfics/fanfics.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {map, Observable} from "rxjs";
+import {map, mergeMap, Observable} from "rxjs";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {AuthService} from "../../services/auth/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FanficCommentService} from "../../services/fanfic-comment/fanfic-comment.service";
 import {FanficCommentDto} from "../../dto/fanficCommentDto";
 import {ServiceResultDto} from "../../dto/serviceResultDto";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-fanfic-page',
@@ -77,8 +78,13 @@ export class FanficPageComponent implements OnInit {
           this.fanficService.getFanfic(id)
             .subscribe({
               next: fanficDto => {
-                this.fanfic = fanficDto;
-                this.getFanficComments();
+                if (this.isAdultsOnly(fanficDto) && !this.authService.isAdult) {
+                  this.router.navigate(['/adult-content']).then();
+                }
+                else {
+                  this.fanfic = fanficDto;
+                  this.getFanficComments();
+                }
               },
               error: () => this.messageService.add({
                 severity: 'error',
@@ -92,6 +98,11 @@ export class FanficPageComponent implements OnInit {
   get isFanficAuthor(): Observable<boolean> {
     return this.authService.loggedInUser
       .pipe(map(user => user?.id === this.fanfic?.author.id));
+  }
+
+  isAdultsOnly(fanfic: FanficDto | undefined): boolean {
+    return (fanfic?.tags.some(t => t.name.includes('(18+)')) ?? false)
+      || (fanfic?.fandoms.some(f => f.title.includes('(18+)')) ?? false);
   }
 
   isCommentAuthor(commentAuthorId: string): Observable<boolean> {

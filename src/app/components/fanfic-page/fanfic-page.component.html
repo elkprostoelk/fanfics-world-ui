@@ -102,6 +102,15 @@
       Annotation: {{fanfic.annotation}}
     </div>
 
+    <div class="plus18-warning" *ngIf="isAdultsOnly(this.fanfic)">
+      <div class="plus18-warning-header">
+        <i class="pi pi-exclamation-triangle"></i> 18+ Warning!
+      </div>
+      <div class="plus18-warning-text">
+        This fanfic contains tags, fandoms or rating which is for adults only. Make sure its content is not available for your underage relatives, friends or just random people who can see it!
+      </div>
+    </div>
+
     <div class="fanfic-text" [innerHTML]="fanfic.text"></div>
 
     <div class="comments-section">

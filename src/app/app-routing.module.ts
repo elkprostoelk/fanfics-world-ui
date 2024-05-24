@@ -10,12 +10,14 @@ import {RegisterComponent} from "./components/register/register.component";
 import {EditFanficComponent} from "./components/edit-fanfic/edit-fanfic.component";
 import {AdminPanelComponent} from "./components/admin-panel/admin-panel.component";
 import {RoleGuardService} from "./services/role-guard/role-guard.service";
+import {AdultContentComponent} from "./components/adult-content/adult-content.component";
 
 const routes: Routes = [
   { component: LoginComponent, path: 'login' },
   { component: RegisterComponent, path: 'register' },
   { component: FanficsComponent, path: '' },
   { path: 'fanfics',   redirectTo: '' },
+  { path: 'adult-content', component: AdultContentComponent },
   { component: AddFanficComponent, path: 'add-fanfic', canActivate: [() => inject(AuthGuardService).canActivate()] },
   { component: EditFanficComponent, path: 'edit-fanfic/:id', canActivate: [() => inject(AuthGuardService).canActivate()] },
   { component: FanficPageComponent, path: 'fanfic/:id' },

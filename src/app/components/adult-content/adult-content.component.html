@@ -1,0 +1,5 @@
+<div class="adult-content-container">
+  <h1><i class="pi pi-exclamation-triangle"></i> Adult content warning!</h1>
+  <p>You cannot access this page because it contains adult content. <span *ngIf="!isLoggedIn">Please, <a [routerLink]="['/login']">log in</a> to verify your age.</span></p>
+  <div><button pButton class="p-button-danger p-button-lg" type="button" [routerLink]="['/']">Go back to a main page</button></div>
+</div>
