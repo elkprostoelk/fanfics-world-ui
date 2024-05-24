@@ -43,7 +43,7 @@
       <td>{{tag.id}}</td>
       <td>{{tag.name}}</td>
       <td>{{tag.fanficsCount}}</td>
-      <td [ngStyle]="{'color': tag.isDeleted ? 'red' : 'darkgreen', 'font-weight': '600'}">{{tag.isDeleted ? 'Yes' : 'No'}}</td>
+      <td [ngStyle]="{'color': tag.isDeleted ? 'red' : 'darkgreen', 'font-weight': '600'}">{{tag.isDeleted ? 'Deleted' : 'Available'}}</td>
       <td>
         <button
           class="p-button-secondary p-button-text user-action-button"

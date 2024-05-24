@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {FanficDto} from "../../dto/fanficDto";
 import {FanficsService} from "../../services/fanfics/fanfics.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {map, mergeMap, Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {AuthService} from "../../services/auth/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FanficCommentService} from "../../services/fanfic-comment/fanfic-comment.service";
 import {FanficCommentDto} from "../../dto/fanficCommentDto";
 import {ServiceResultDto} from "../../dto/serviceResultDto";
-import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-fanfic-page',
