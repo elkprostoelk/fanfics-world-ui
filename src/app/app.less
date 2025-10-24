@@ -1,0 +1,47 @@
+@import "variables";
+
+header, footer {
+  border-radius: 5px;
+  padding: 1rem;
+  background-color: @border-main;
+}
+
+header {
+  border-bottom: solid 2px @border-main;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .auth-section {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .auth-section-authorized {
+    .username {
+      font-weight: 600;
+      margin: 0 1rem;
+    }
+
+    .user-menu-button {
+      margin-left: .25rem;
+    }
+
+    .user-menu-button:hover {
+      cursor: pointer;
+    }
+
+    display: flex;
+    align-items: center;
+  }
+}
+
+main {
+  height: 100%;
+}
+
+footer {
+  border-top: solid 2px @border-main;
+  text-align: center;
+}

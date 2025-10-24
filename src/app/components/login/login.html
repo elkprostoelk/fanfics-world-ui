@@ -1,0 +1,20 @@
+<div class="login-form-container">
+  <form class="login-form" [formGroup]="loginForm" (submit)="login()">
+    <h2>Please enter your credentials to log in</h2>
+    <div class="form-input">
+      <label for="email">E-mail address:</label>
+      <input type="email" pInputText formControlName="email" />
+    </div>
+    <div class="form-input">
+      <label for="password">Password:</label>
+      <p-password [maxlength]="20" [toggleMask]="true" [feedback]="false" formControlName="password" />
+    </div>
+
+    <button
+      pButton
+      type="submit"
+      [loading]="isLoading"
+      [disabled]="loginForm.invalid || isLoading"
+      class="login-button">Login</button>
+  </form>
+</div>
