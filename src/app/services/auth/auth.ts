@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {BehaviorSubject} from 'rxjs';
 import {LoggedInUser} from '../../models/auth/loggedInUser';
 import {decodeToken} from '../../auth-interceptor/auth-interceptor';
+import {RegisterRequest} from '../../models/auth/registerRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class Auth {
     return this.http.post(`${this.authUrl}login`, {email, password}, {
       responseType: 'text'
     });
+  }
+
+  register(request: RegisterRequest) {
+    return this.http.post(`${this.authUrl}register`, request);
   }
 
   onStartup() {

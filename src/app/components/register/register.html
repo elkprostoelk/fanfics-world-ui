@@ -1,0 +1,48 @@
+<div class="register-container">
+  <form class="register-form" [formGroup]="registerForm" (submit)="register()">
+    <h2>Provide your data to create a user account</h2>
+    <div class="form-input">
+      <label for="email">E-mail address:</label>
+      <input id="email" type="email" pInputText formControlName="email" />
+    </div>
+    <div class="form-input">
+      <label for="name">User name:</label>
+      <input id="name" type="text" pInputText formControlName="name" />
+    </div>
+    <div class="form-input">
+      <label for="birthDate">Birth date:</label>
+      <p-date-picker
+        id="birthDate"
+        dateFormat="dd.mm.yy"
+        placeholder="01.01.2000"
+        formControlName="birthDate"
+        [showIcon]="true"
+        [showClear]="true"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        fluid />
+    </div>
+    <div class="form-input">
+      <label for="password">Password:</label>
+      <p-password
+        id="password"
+        [maxlength]="20"
+        [toggleMask]="true"
+        [feedback]="false"
+        formControlName="password" />
+    </div>
+    <div class="form-input">
+      <label for="bio">Bio:</label>
+      <textarea id="bio" formControlName="bio" pTextarea></textarea>
+    </div>
+
+    <button
+      pButton
+      type="submit"
+      [loading]="isLoading"
+      [disabled]="registerForm.invalid || isLoading"
+      class="common-button">
+      <span pButtonLabel>Register</span>
+    </button>
+  </form>
+</div>
