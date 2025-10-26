@@ -1,4 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import {Router} from '@angular/router';
+import {inject} from '@angular/core';
+import {catchError, throwError} from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authToken = localStorage.getItem('access_token') || '';
@@ -9,8 +12,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     },
   });
 
-  const isTokenValid = authToken && decodeToken(authToken).expires < new Date();
-  return next(isTokenValid ? authReq : req);
+  const router = inject(Router);
+
+  return next(authReq).pipe(
+    catchError(err => {
+      if (err.status === 401 && router.url !== '/login') {
+        router.navigate(['/login']).then();
+      }
+
+      return throwError(() => err);
+    })
+  );
 };
 
 export const decodeToken = (token: string) => {

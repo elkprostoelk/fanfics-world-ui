@@ -1,6 +1,41 @@
 <div class="container">
-  <form class="add-fanfic-form">
+  <form class="add-fanfic-form" [formGroup]="addFanficForm" (submit)="addFanfic()">
     <h2>Add a new fanfic</h2>
-    TBD
+    <div class="form-input">
+      <label for="title">Title <i class="pi pi-asterisk asterisk-sm"></i> :</label>
+      <input type="text" pInputText formControlName="title" />
+    </div>
+    <div class="form-input">
+      <label for="description">Description:</label>
+      <textarea type="text" pTextarea formControlName="description"></textarea>
+    </div>
+    <div class="form-input">
+      <label for="direction">Direction <i class="pi pi-asterisk asterisk-sm"></i> :</label>
+      <p-select
+        id="direction"
+        [options]="directions"
+        formControlName="direction"
+        placeholder="Select direction"
+        optionLabel="value"
+        optionValue="key" />
+    </div>
+    <div class="form-input">
+      <label for="rating">Rating <i class="pi pi-asterisk asterisk-sm"></i> :</label>
+      <p-select
+        id="rating"
+        [options]="ratings"
+        formControlName="rating"
+        placeholder="Select rating"
+        optionLabel="value"
+        optionValue="key" />
+    </div>
+    <button
+      pButton
+      type="submit"
+      [loading]="isLoading"
+      [disabled]="addFanficForm.invalid || isLoading"
+      class="common-button">
+      <span pButtonLabel>Add</span>
+    </button>
   </form>
 </div>

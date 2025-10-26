@@ -12,7 +12,7 @@ import {RegisterRequest} from '../../models/auth/registerRequest';
 export class Auth {
   loggedInUser$ = new BehaviorSubject<LoggedInUser | null>(null);
 
-  private authUrl = `${environment.apiUrl}api/auth/`;
+  private readonly authUrl = `${environment.apiUrl}api/auth/`;
 
   constructor(private readonly http: HttpClient) {}
 
