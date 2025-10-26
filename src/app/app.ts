@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {Toast} from 'primeng/toast';
 import {Auth} from './services/auth/auth';
 import {LoggedInUser} from './models/auth/loggedInUser';
@@ -10,7 +10,7 @@ import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Button, RouterLink, Toast, Avatar, Menu],
+  imports: [RouterOutlet, Button, RouterLink, Toast, Avatar, Menu, ButtonDirective, ButtonIcon, ButtonLabel],
   templateUrl: './app.html',
   styleUrl: './app.less'
 })

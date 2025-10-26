@@ -1,5 +1,13 @@
 <header>
-  <h1>Fanfics World</h1>
+  <div class="title-section">
+    <h1>Fanfics World</h1>
+    @if (loggedInUser) {
+      <button class="common-button" type="button" pButton routerLink="/add-fanfic">
+        <i class="pi pi-plus" pButtonIcon></i>
+        <span pButtonLabel>Add fanfic</span>
+      </button>
+    }
+  </div>
   @if (loggedInUser) {
     <div class="auth-section-authorized">
       <span class="username">{{ loggedInUser.name }}</span>

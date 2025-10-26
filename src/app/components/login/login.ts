@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {FormBuilder, FormControl, ReactiveFormsModule, UntypedFormGroup, Validators} from '@angular/forms';
 import {Password} from 'primeng/password';
-import {ButtonDirective} from 'primeng/button';
+import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {Auth} from '../../services/auth/auth';
 import {MessageService} from 'primeng/api';
 import {decodeToken} from '../../auth-interceptor/auth-interceptor';
@@ -14,7 +14,8 @@ import {Router} from '@angular/router';
     InputText,
     ReactiveFormsModule,
     Password,
-    ButtonDirective
+    ButtonDirective,
+    ButtonLabel
   ],
   templateUrl: './login.html',
   styleUrl: './login.less'
