@@ -1,7 +1,7 @@
 export enum FanficRating {
-  G,
-  Pg13,
-  R,
-  Nc17,
-  Nc21
+  G = 'G',
+  Pg13 = 'Pg13',
+  R = 'R',
+  Nc17 = 'Nc17',
+  Nc21 = 'Nc21'
 }

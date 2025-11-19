@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Fanfics } from './fanfic';
+import { FanficService } from './fanfic.service';
 
 describe('Fanfic', () => {
-  let service: Fanfics;
+  let service: FanficService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Fanfics);
+    service = TestBed.inject(FanficService);
   });
 
   it('should be created', () => {

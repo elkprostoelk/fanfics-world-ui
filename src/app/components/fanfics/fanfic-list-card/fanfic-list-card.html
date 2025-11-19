@@ -1,0 +1,17 @@
+<p-card class="fanfic-card">
+  <ng-template #title>
+    {{ fanfic.title }}
+  </ng-template>
+  <ng-template #subtitle>
+    <div class="fanfic-attributes">
+      <span>Author: {{ fanfic.author.name }}</span>
+      <span>Created: {{ fanfic.createdDate | date: 'MMMM d y H:mm zzzz' }}</span>
+      <span>Direction: {{ fanficDirection }}</span>
+      <span>Rating: {{ fanficRating }}</span>
+      <span>Status: {{ fanficStatus }}</span>
+    </div>
+  </ng-template>
+  <p>
+    {{ fanfic.description }}
+  </p>
+</p-card>

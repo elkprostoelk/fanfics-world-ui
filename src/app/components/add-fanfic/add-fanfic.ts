@@ -7,9 +7,10 @@ import {Textarea} from 'primeng/textarea';
 import {FanficDirection} from '../../models/fanfics/fanficDirection';
 import {FanficRating} from '../../models/fanfics/fanficRating';
 import {Select} from 'primeng/select';
-import {Fanfics} from '../../services/fanfic/fanfic';
+import {FanficService} from '../../services/fanfic/fanfic.service';
 import {MessageService} from 'primeng/api';
-import {Auth} from '../../services/auth/auth';
+import {AuthService} from '../../services/auth/auth.service';
+import {LookupsService} from '../../services/lookups/lookups.service';
 
 @Component({
   selector: 'app-add-fanfic',
@@ -32,31 +33,19 @@ export class AddFanfic implements OnInit {
     rating: new FormControl('', [Validators.required]),
   });
   isLoading = false;
-  directions = [
-    { key: FanficDirection.NotDefined, value: 'Not Defined' },
-    { key: FanficDirection.Gen, value: 'Gen' },
-    { key: FanficDirection.Het, value: 'Het' },
-    { key: FanficDirection.Slash, value: 'Slash' },
-    { key: FanficDirection.Femslash, value: 'Femslash' },
-    { key: FanficDirection.Other, value: 'Other' },
-    { key: FanficDirection.Mixed, value: 'Mixed' },
-    { key: FanficDirection.Article, value: 'Article' },
-  ];
-  ratings = [
-    { key: FanficRating.G, value: 'G' },
-    { key: FanficRating.Pg13, value: 'PG-13' },
-    { key: FanficRating.R, value: 'R' },
-    { key: FanficRating.Nc17, value: 'NC-17' },
-    { key: FanficRating.Nc21, value: 'NC-21' },
-  ];
+  directions: { key: FanficDirection, value: string }[] = [];
+  ratings: { key: FanficRating, value: string }[] = [];
 
   constructor(
     private readonly router: Router,
-    private readonly fanficsService: Fanfics,
+    private readonly fanficService: FanficService,
     private readonly messageService: MessageService,
-    private readonly authService: Auth) {}
+    private readonly authService: AuthService,
+    private readonly lookupsService: LookupsService ) {}
 
   ngOnInit() {
+    this.directions = this.lookupsService.directions;
+    this.ratings = this.lookupsService.ratings;
     this.authService.loggedInUser$.subscribe(user => {
       if (!user) {
         this.router.navigate(['/login']).then();
@@ -66,7 +55,7 @@ export class AddFanfic implements OnInit {
 
   addFanfic() {
     this.isLoading = true;
-    this.fanficsService.addFanfic(this.addFanficForm.value)
+    this.fanficService.addFanfic(this.addFanficForm.value)
       .subscribe({
         next: (fanficId) => {
           this.isLoading = false;

@@ -3,7 +3,7 @@ import {InputText} from 'primeng/inputtext';
 import {FormBuilder, FormControl, ReactiveFormsModule, UntypedFormGroup, Validators} from '@angular/forms';
 import {Password} from 'primeng/password';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {Auth} from '../../services/auth/auth';
+import {AuthService} from '../../services/auth/auth.service';
 import {MessageService} from 'primeng/api';
 import {decodeToken} from '../../auth-interceptor/auth-interceptor';
 import {Router} from '@angular/router';
@@ -29,7 +29,7 @@ export class Login implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly authService: Auth,
+    private readonly authService: AuthService,
     private readonly messageService: MessageService,
     private readonly router: Router) {}
 

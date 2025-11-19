@@ -9,7 +9,7 @@ import {RegisterRequest} from '../../models/auth/registerRequest';
 @Injectable({
   providedIn: 'root'
 })
-export class Auth {
+export class AuthService {
   loggedInUser$ = new BehaviorSubject<LoggedInUser | null>(null);
 
   private readonly authUrl = `${environment.apiUrl}api/auth/`;

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Auth} from '../../services/auth/auth';
+import {AuthService} from '../../services/auth/auth.service';
 import {FormControl, ReactiveFormsModule, UntypedFormGroup, Validators} from '@angular/forms';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {InputText} from 'primeng/inputtext';
@@ -47,7 +47,7 @@ export class Register implements OnInit {
   maxDate = new Date();
 
   constructor(
-    private readonly authService: Auth,
+    private readonly authService: AuthService,
     private readonly router: Router,
     private readonly messageService: MessageService) {}
 

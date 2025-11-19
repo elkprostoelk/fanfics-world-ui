@@ -1,0 +1,18 @@
+<div class="fanfics-container">
+  <aside class="fanfics-search-filters">
+    Coming Soon
+  </aside>
+  <div class="fanfics-list">
+    @if (isLoading) {
+      <div class="fanfics-list-loading">
+        <p-progress-spinner ariaLabel="loading" />
+      </div>
+    }
+    @else {
+      @for (fanfic of fanfics; track fanfic.id) {
+        <app-fanfic-list-card [fanfic]="fanfic"></app-fanfic-list-card>
+      }
+    }
+  </div>
+
+</div>

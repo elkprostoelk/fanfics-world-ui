@@ -1,10 +1,10 @@
 export enum FanficDirection {
-  NotDefined,
-  Gen,
-  Het,
-  Slash,
-  Femslash,
-  Other,
-  Mixed,
-  Article
+  NotDefined = 'NotDefined',
+  Gen = 'Gen',
+  Het = 'Het',
+  Slash = 'Slash',
+  Femslash = 'Femslash',
+  Other = 'Other',
+  Mixed = 'Mixed',
+  Article = 'Article'
 }

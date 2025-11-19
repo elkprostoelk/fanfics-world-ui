@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {Toast} from 'primeng/toast';
-import {Auth} from './services/auth/auth';
+import {AuthService} from './services/auth/auth.service';
 import {LoggedInUser} from './models/auth/loggedInUser';
 import {Avatar} from 'primeng/avatar';
 import {Menu} from 'primeng/menu';
@@ -22,7 +22,7 @@ export class App implements OnInit {
   userNameFirstLetter = 'U';
 
   constructor(
-    private readonly authService: Auth,
+    private readonly authService: AuthService,
     private readonly router: Router) {}
 
   ngOnInit() {
